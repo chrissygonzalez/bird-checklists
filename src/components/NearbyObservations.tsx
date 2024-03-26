@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 
 type Location = { lat: string; long: string; }
@@ -13,11 +14,18 @@ type Observation = {
 }
 
 const NearbyObservations = ({ lat, long }: Location) => {
+    const [loading, setLoading] = useState(true);
     const { data: nearby, isLoading } = useFetch(`https://api.ebird.org/v2/data/obs/geo/recent?lat=${lat}&lng=${long}&maxResults=50&dist=5`);
-    console.log(nearby);
+
+    useEffect(() => {
+        if (nearby) {
+            setLoading(false);
+        }
+    }, [nearby])
+
     return (
         <div>
-            {isLoading && <div>nearby observations requested</div>}
+            {loading && <div>nearby observations requested</div>}
             {nearby?.map((obs: Observation) => {
                 const date = new Date(obs.obsDt);
                 const options: Intl.DateTimeFormatOptions = {

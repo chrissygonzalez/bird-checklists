@@ -1,55 +1,70 @@
 import { useState, useEffect } from 'react';
-import RegionSelect from './components/RegionSelect';
-import RegionalStats from './components/RegionalStats';
-import ChecklistFeed from './components/ChecklistFeed';
 import useFetch from './hooks/useFetch';
 import './App.css'
-import { EbirdRegion } from './types';
 import NearbyObservations from './components/NearbyObservations';
+import ChecklistByRegion from './components/ChecklistByRegion';
 
 function App() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [locationPerm, setLocationPerm] = useState('');
   const [hasLocation, setHasLocation] = useState(false);
   const [latLong, setLatLong] = useState({ lat: '', long: '' });
   const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
 
+  const getLocation = () => {
+    setIsLoadingLocation(true);
+    navigator.geolocation.getCurrentPosition((position) => {
+      setHasLocation(true);
+      const lat = position.coords.latitude.toFixed(2);
+      const long = position.coords.longitude.toFixed(2);
+      setLatLong({ lat, long });
+      setIsLoadingLocation(false);
+    }
+    )
+  };
+
   useEffect(() => {
     if ("geolocation" in navigator) {
       try {
-        navigator.geolocation.getCurrentPosition((position) => {
-          // if (position) {
-          setHasLocation(true);
-          const lat = position.coords.latitude.toFixed(2);
-          const long = position.coords.longitude.toFixed(2);
-          setLatLong({ lat, long });
-          // }
+        navigator.permissions.query({ name: "geolocation" }).then((result) => {
+          if (result.state === 'granted') {
+            getLocation();
+          }
+          if (result.state === 'prompt') {
+            setLocationPerm('prompt');
+            getLocation();
+          }
+          result.onchange = function () {
+            if (this.state === 'denied') {
+              setLocationPerm('denied');
+            } else if (this.state === 'prompt') {
+              setLocationPerm('prompt');
+            } else if (this.state === 'granted') {
+              setLocationPerm('granted');
+            }
+          }
         });
       } catch (err) {
         console.log(err);
       }
     }
-  }, [])
-  // Get states: https://api.ebird.org/v2/ref/region/list/subnational1/US
-  // Get regions in states: https://api.ebird.org/v2/ref/region/list/subnational2/US-NY
-  // Get adjacent regions: https://api.ebird.org/v2/ref/adjacent/US-NY
+  }, [locationPerm])
 
   return (
     <>
+      <h1>Recent Birds Near You</h1>
+      {locationPerm === 'prompt' && <div>Allow location permissions to see nearby bird observations</div>}
+      {/* {isLoadingLocation && <div>Loading</div>} */}
       {hasLocation && <NearbyObservations lat={latLong.lat} long={latLong.long} />}
-      <div className="card">
-        <label htmlFor="ebirdStates">Choose a state</label>
-        <select id="ebirdStates" onChange={(e) => {
-          setSelectedState(e.target.value);
-        }}>
-          <option value={''}>Choose a state</option>
-          {states?.map((st: EbirdRegion) => <option key={st.code} value={st.code}>{st.name}</option>)}
-        </select>
-
-        {selectedState && <RegionSelect selectedState={selectedState} setSelectedRegion={setSelectedRegion} />}
-        {selectedRegion && <RegionalStats selectedRegion={selectedRegion} />}
-        {selectedRegion && <ChecklistFeed selectedRegion={selectedRegion} />}
-      </div>
+      {!hasLocation && !isLoadingLocation && <ChecklistByRegion
+        states={states}
+        selectedRegion={selectedRegion}
+        selectedState={selectedState}
+        setSelectedRegion={setSelectedRegion}
+        setSelectedState={setSelectedState}
+      />}
     </>
   )
 }
