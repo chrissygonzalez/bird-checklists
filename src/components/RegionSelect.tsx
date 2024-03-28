@@ -11,7 +11,6 @@ const RegionSelect = ({ selectedState, setSelectedRegion }: RegionSelect) => {
 
     return (
         <>
-            <label htmlFor="ebirdRegions">Choose a region</label>
             <select id="ebirdRegions" onChange={e => {
                 setSelectedRegion(e.target.value);
             }}>

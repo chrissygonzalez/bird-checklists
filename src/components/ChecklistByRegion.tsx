@@ -13,8 +13,7 @@ type ChecklistByRegion = {
 
 const ChecklistByRegion = ({ states, selectedState, setSelectedState, selectedRegion, setSelectedRegion }: ChecklistByRegion) => {
     return (
-        <div className="card">
-            <label htmlFor="ebirdStates">Choose a state</label>
+        <div className="inputs">
             <select id="ebirdStates" onChange={(e) => {
                 setSelectedState(e.target.value);
             }}>
@@ -23,8 +22,8 @@ const ChecklistByRegion = ({ states, selectedState, setSelectedState, selectedRe
             </select>
 
             {selectedState && <RegionSelect selectedState={selectedState} setSelectedRegion={setSelectedRegion} />}
-            {selectedRegion && <RegionalStats selectedRegion={selectedRegion} />}
-            {selectedRegion && <ChecklistFeed selectedRegion={selectedRegion} />}
+            {/* {selectedRegion && <RegionalStats selectedRegion={selectedRegion} />} */}
+            {/* {selectedRegion && <ChecklistFeed selectedRegion={selectedRegion} />} */}
         </div>
     )
 }
