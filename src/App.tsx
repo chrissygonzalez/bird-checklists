@@ -15,16 +15,22 @@ function App() {
   return (
     <>
       <h1>Recent Bird Obervations</h1>
-      <h3>Choose an eBird region or use your location</h3>
+      <h3>Use your location to see recent nearby observations</h3>
+      <h3>See observations in a region by date</h3>
       <div className="flex">
-        <ChecklistByRegion
+        {!showNearby && <ChecklistByRegion
           states={states}
           selectedRegion={selectedRegion}
           selectedState={selectedState}
           setSelectedRegion={setSelectedRegion}
           setSelectedState={setSelectedState}
-        />
-        <button onClick={() => setShowNearby(true)}>Find birds near me</button>
+        />}
+        {!selectedRegion && !showNearby && <><p>or</p><button onClick={() => setShowNearby(true)}>Use your current location</button></>}
+        {(selectedRegion || showNearby) && <button onClick={() => {
+          setSelectedRegion('');
+          setSelectedState('');
+          setShowNearby(false);
+        }}>Reset</button>}
       </div>
       {showNearby && <GetLocationWrapper />}
       {selectedRegion && <RegionalStats selectedRegion={selectedRegion} />}

@@ -15,6 +15,7 @@ type ChecklistItem = {
 const ChecklistFeed = ({ selectedRegion }: { selectedRegion: string }) => {
     const [selectedChecklist, setSelectedChecklist] = useState<string>();
     const { data: checklistFeed }: { data: ChecklistItem[] } = useFetch(`https://api.ebird.org/v2/product/lists/${selectedRegion}/2024/3/21`);
+    console.log(checklistFeed);
 
     return (
         <div>
