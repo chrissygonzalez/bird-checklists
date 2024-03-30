@@ -22,7 +22,8 @@ p {
   margin-left: 1rem;
 }
 
-select {
+select,
+input {
   background-color: #fff;
   color: rgba(128, 71, 51, 0.87);
   padding: 0.5rem;
@@ -31,8 +32,9 @@ select {
   border-radius: 5px;
 }
 
-.inputs {
-  /* padding: 1em; */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: #000;
+  fill: #000;
 }
 
 .observation {

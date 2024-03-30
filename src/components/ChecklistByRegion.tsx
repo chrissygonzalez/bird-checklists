@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 import { EbirdRegion } from '../types';
 import RegionSelect from './RegionSelect';
+import ChecklistFeed from "./ChecklistFeed";
 
 type ChecklistByRegion = {
     states: EbirdRegion[];
@@ -10,22 +12,37 @@ type ChecklistByRegion = {
     setSelectedRegion: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChecklistByRegion = ({ states, selectedState, selectedRegion, setSelectedState, setSelectedRegion }: ChecklistByRegion) => {
+const ChecklistByRegion = () => {
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedRegion, setSelectedRegion] = useState('');
+    const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState([]);
+    const [obs, setObs] = useState([]);
+    const [locMap, setLocMap] = useState(new Map());
+
+
+    let myHeaders = new Headers();
+    myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
+    const requestOptions: RequestInit = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
 
     const fetchRegions = (state: string) => {
-        let myHeaders = new Headers();
-        myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
-
-        const requestOptions: RequestInit = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-
         fetch(`https://api.ebird.org/v2/ref/region/list/subnational2/${state}`, requestOptions)
             .then(res => res.json())
             .then(data => setRegions(data));
+    }
+
+
+    const fetchObs = () => {
+        fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent`, requestOptions)
+            .then(res => res.json())
+            .then(data => {
+                setObs(data);
+                // console.log(data);
+            });
     }
 
     return (
@@ -39,8 +56,8 @@ const ChecklistByRegion = ({ states, selectedState, selectedRegion, setSelectedS
             </select>
 
             <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
-            <input type="date"></input>
-            <button>Get observations</button>
+            <button onClick={fetchObs}>Get observations</button>
+            {obs.length > 0 && obs.map(ob => <div>{ob.comName}</div>)}
         </div>
     )
 }
