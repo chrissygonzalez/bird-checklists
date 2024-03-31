@@ -10,7 +10,7 @@ const RegionalObservations = () => {
     const [selectedRegion, setSelectedRegion] = useState(localStorage.getItem('selectedRegion') || '');
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState([]);
-    const [obs, setObs] = useState([]);
+    const [obs, setObs] = useState<Observation[]>([]);
 
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
@@ -18,6 +18,7 @@ const RegionalObservations = () => {
             fetchRegions(selectedState);
         } else {
             setSelectedRegion('');
+            setRegions([]);
             sessionStorage.setItem('selectedRegion', '');
         }
         setObs([]);
@@ -52,7 +53,6 @@ const RegionalObservations = () => {
             .then(res => res.json())
             .then(data => {
                 setObs(data);
-                sortByBird();
                 console.log(data);
             });
     }
@@ -63,13 +63,44 @@ const RegionalObservations = () => {
     }
 
     const sortByDate = () => {
-        let byDate = [...obs].sort((a: Observation, b: Observation) => a.obsDt > b.obsDt ? 1 : -1);
+        let byDate = [...obs].sort((a: Observation, b: Observation) => {
+            if (a.obsDt < b.obsDt) {
+                return 1;
+            } else if (a.obsDt === b.obsDt) {
+                return 0;
+            } else {
+                return -1;
+            }
+        });
         setObs(byDate);
+        const dateMap = new Map();
+        for (const ob of obs) {
+            const date = ob.obsDt;
+            if (dateMap.has(date)) {
+                const arr = dateMap.get(date);
+                arr.push(ob);
+            } else {
+                dateMap.set(date, [ob]);
+            }
+        }
+        console.log(dateMap);
     }
 
     const sortByLocation = () => {
         let byLocation = [...obs].sort((a: Observation, b: Observation) => a.locName > b.locName ? 1 : -1);
         setObs(byLocation);
+
+        const locMap = new Map();
+        for (const ob of obs) {
+            const loc = ob.locName;
+            if (locMap.has(loc)) {
+                const arr = locMap.get(loc);
+                arr.push(ob);
+            } else {
+                locMap.set(loc, [ob]);
+            }
+        }
+        console.log(locMap);
     }
 
     return (

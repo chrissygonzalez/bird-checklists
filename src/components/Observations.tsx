@@ -11,9 +11,9 @@ const Observations = ({ obs }: { obs: Observation[] }) => {
             };
             const formattedDate = new Date(ob.obsDt).toLocaleDateString(undefined, dateOptions);
             return <div key={ob.subId + ob.speciesCode} className="observation">
-                <p className="location">{formattedDate}</p>
                 <p>{ob.howMany} {ob.comName}{ob.howMany > 1 ? 's' : ''}</p>
                 <p className="location">{ob.locName}</p>
+                <p className="location">{formattedDate}</p>
             </div>
         })}
     </div>)
