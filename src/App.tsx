@@ -1,5 +1,5 @@
 import './App.css'
-import ChecklistByRegion from './components/ChecklistByRegion';
+import RegionalObservations from './components/RegionalObservations';
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       <h1>Bird Observations</h1>
       <h3>Who's been hanging around?</h3>
       <div className="flex">
-        <ChecklistByRegion />
+        <RegionalObservations />
       </div>
     </>
   )

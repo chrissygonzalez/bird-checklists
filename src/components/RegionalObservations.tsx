@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-import { EbirdRegion } from '../types';
+import { Observation } from '../types';
 import RegionSelect from './RegionSelect';
+import Observations from "./Observations";
+import StateSelect from "./StateSelect";
 
-type ChecklistByRegion = {
-    states: EbirdRegion[];
-    selectedState: string;
-    selectedRegion: string;
-    setSelectedState: React.Dispatch<React.SetStateAction<string>>;
-    setSelectedRegion: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const ChecklistByRegion = () => {
+const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
     const [selectedRegion, setSelectedRegion] = useState(localStorage.getItem('selectedRegion') || '');
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
@@ -58,23 +52,38 @@ const ChecklistByRegion = () => {
             .then(res => res.json())
             .then(data => {
                 setObs(data);
+                sortByBird();
                 console.log(data);
             });
     }
 
+    const sortByBird = () => {
+        let byBird = [...obs].sort((a: Observation, b: Observation) => a.comName > b.comName ? 1 : -1);
+        setObs(byBird);
+    }
+
+    const sortByDate = () => {
+        let byDate = [...obs].sort((a: Observation, b: Observation) => a.obsDt > b.obsDt ? 1 : -1);
+        setObs(byDate);
+    }
+
+    const sortByLocation = () => {
+        let byLocation = [...obs].sort((a: Observation, b: Observation) => a.locName > b.locName ? 1 : -1);
+        setObs(byLocation);
+    }
+
     return (
         <div className="inputs">
-            <select id="ebirdStates" value={selectedState} onChange={(e) => {
-                setSelectedState(e.target.value);
-            }}>
-                <option value={''}>Choose a state</option>
-                {states?.map((st: EbirdRegion) => <option key={st.code} value={st.code}>{st.name}</option>)}
-            </select>
-
-            <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
-            {obs.length > 0 && obs.map(ob => <div key={ob.subId + ob.speciesCode}>{ob.comName}</div>)}
+            <div>
+                <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
+                <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
+            </div>
+            <button onClick={sortByBird}>Sort by bird name</button>
+            <button onClick={sortByDate}>Sort by date</button>
+            <button onClick={sortByLocation}>Sort by location</button>
+            <Observations obs={obs} />
         </div>
     )
 }
 
-export default ChecklistByRegion;
+export default RegionalObservations;

@@ -6,3 +6,12 @@ export type EbirdRegion = {
 export type SelectedState = {
     selectedState: string;
 }
+
+export type Observation = {
+    howMany: number;
+    subId: string;
+    speciesCode: string;
+    comName: string;
+    locName: string;
+    obsDt: string;
+}
