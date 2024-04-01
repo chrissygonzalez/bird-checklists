@@ -4,6 +4,7 @@ import { Observation } from '../types';
 import RegionSelect from './RegionSelect';
 import Observations from "./Observations";
 import StateSelect from "./StateSelect";
+import ObservationsByDate from "./ObservationsByDate";
 
 const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
@@ -11,6 +12,7 @@ const RegionalObservations = () => {
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState([]);
     const [obs, setObs] = useState<Observation[]>([]);
+    const [dateMap, setDateMap] = useState(new Map());
 
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
@@ -73,16 +75,17 @@ const RegionalObservations = () => {
             }
         });
         setObs(byDate);
-        const dateMap = new Map();
+        const dateMap: Map<string, Observation[]> = new Map();
         for (const ob of obs) {
             const date = ob.obsDt;
             if (dateMap.has(date)) {
                 const arr = dateMap.get(date);
-                arr.push(ob);
+                arr?.push(ob);
             } else {
                 dateMap.set(date, [ob]);
             }
         }
+        setDateMap(dateMap);
         console.log(dateMap);
     }
 
@@ -109,10 +112,11 @@ const RegionalObservations = () => {
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </div>
-            <button onClick={sortByBird}>Sort by bird name</button>
             <button onClick={sortByDate}>Sort by date</button>
+            <button onClick={sortByBird}>Sort by bird name</button>
             <button onClick={sortByLocation}>Sort by location</button>
             <Observations obs={obs} />
+            <ObservationsByDate obsMap={dateMap} />
         </div>
     )
 }
