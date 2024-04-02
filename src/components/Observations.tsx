@@ -1,7 +1,7 @@
 import { Observation } from "../types";
 
 const Observations = ({ obs }: { obs: Observation[] }) => {
-    return (<div>
+    return (<div className="obs-container">
         {obs.length > 0 && obs.map((ob: Observation) => {
             const dateOptions: Intl.DateTimeFormatOptions = {
                 weekday: 'short',
@@ -11,7 +11,7 @@ const Observations = ({ obs }: { obs: Observation[] }) => {
             };
             const formattedDate = new Date(ob.obsDt).toLocaleDateString(undefined, dateOptions);
             return <div key={ob.subId + ob.speciesCode} className="observation">
-                <p>{ob.howMany} {ob.comName}{ob.howMany > 1 ? 's' : ''}</p>
+                <p>{ob.comName} ({ob.howMany})</p>
                 <p className="location">{ob.locName}</p>
                 <p className="location">{formattedDate}</p>
             </div>

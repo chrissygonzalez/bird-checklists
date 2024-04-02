@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEventHandler } from "react";
 import useFetch from "../hooks/useFetch";
 import { Observation } from '../types';
 import RegionSelect from './RegionSelect';
@@ -12,7 +12,8 @@ const RegionalObservations = () => {
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState([]);
     const [obs, setObs] = useState<Observation[]>([]);
-    const [dateMap, setDateMap] = useState(new Map());
+    const [sort, setSort] = useState('date');
+    const [birdMap, setBirdMap] = useState(new Map());
 
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
@@ -24,6 +25,7 @@ const RegionalObservations = () => {
             sessionStorage.setItem('selectedRegion', '');
         }
         setObs([]);
+        setBirdMap(new Map());
     }, [selectedState]);
 
     useEffect(() => {
@@ -32,6 +34,7 @@ const RegionalObservations = () => {
             fetchObs();
         } else {
             setObs([]);
+            setBirdMap(new Map());
         }
     }, [selectedRegion]);
 
@@ -49,61 +52,62 @@ const RegionalObservations = () => {
             .then(data => setRegions(data));
     }
 
-
     const fetchObs = () => {
         fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent`, requestOptions)
             .then(res => res.json())
             .then(data => {
                 setObs(data);
+                initialViewByDate(data);
                 console.log(data);
             });
     }
 
-    const sortByBird = () => {
-        let byBird = [...obs].sort((a: Observation, b: Observation) => a.comName > b.comName ? 1 : -1);
-        setObs(byBird);
-    }
-
-    const sortByDate = () => {
-        let byDate = [...obs].sort((a: Observation, b: Observation) => {
-            if (a.obsDt < b.obsDt) {
-                return 1;
-            } else if (a.obsDt === b.obsDt) {
-                return 0;
-            } else {
-                return -1;
-            }
-        });
-        setObs(byDate);
-        const dateMap: Map<string, Observation[]> = new Map();
-        for (const ob of obs) {
-            const date = ob.obsDt;
-            if (dateMap.has(date)) {
-                const arr = dateMap.get(date);
+    const getBirdDataMap = (birds: Observation[], field: string | number) => {
+        const birdMap: Map<string, Observation[]> = new Map();
+        for (const ob of birds) {
+            const key = ob[field as keyof Observation];
+            if (birdMap.has(String(key))) {
+                const arr = birdMap.get(String(key));
                 arr?.push(ob);
             } else {
-                dateMap.set(date, [ob]);
+                birdMap.set(String(key), [ob]);
             }
         }
-        setDateMap(dateMap);
-        console.log(dateMap);
+        return birdMap;
     }
 
-    const sortByLocation = () => {
-        let byLocation = [...obs].sort((a: Observation, b: Observation) => a.locName > b.locName ? 1 : -1);
-        setObs(byLocation);
-
-        const locMap = new Map();
-        for (const ob of obs) {
-            const loc = ob.locName;
-            if (locMap.has(loc)) {
-                const arr = locMap.get(loc);
-                arr.push(ob);
-            } else {
-                locMap.set(loc, [ob]);
-            }
+    const sortMapDecreasing = (a: [string, Observation[]], b: [string, Observation[]]) => {
+        if (a[0] < b[0]) {
+            return 1;
+        } else if (a[0] === b[0]) {
+            return 0;
+        } else {
+            return -1;
         }
-        console.log(locMap);
+    }
+
+    const viewByBird = () => {
+        const map = getBirdDataMap(obs, 'comName');
+        const sorted = new Map([...map.entries()].sort());
+        setBirdMap(sorted);
+    }
+
+    const initialViewByDate = (birds: Observation[]) => {
+        const map = getBirdDataMap(birds, 'obsDt');
+        const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
+        setBirdMap(sorted);
+    }
+
+    const viewByDate = () => {
+        const map = getBirdDataMap(obs, 'obsDt');
+        const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
+        setBirdMap(sorted);
+    }
+
+    const viewByLocation = () => {
+        const map = getBirdDataMap(obs, 'locName');
+        const sorted = new Map([...map.entries()].sort());
+        setBirdMap(sorted);
     }
 
     return (
@@ -112,11 +116,10 @@ const RegionalObservations = () => {
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </div>
-            <button onClick={sortByDate}>Sort by date</button>
-            <button onClick={sortByBird}>Sort by bird name</button>
-            <button onClick={sortByLocation}>Sort by location</button>
-            <Observations obs={obs} />
-            <ObservationsByDate obsMap={dateMap} />
+            <button onClick={viewByDate}>Sort by date</button>
+            <button onClick={viewByBird}>Sort by bird name</button>
+            <button onClick={viewByLocation}>Sort by location</button>
+            <ObservationsByDate obsMap={birdMap} />
         </div>
     )
 }

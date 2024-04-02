@@ -36,15 +36,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   fill: #000;
 }
 
+.obs-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .observation {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
   color: #000;
   text-align: left;
   margin: 1rem;
   padding: 1rem;
-  border-radius: 5px;
 }
 
 .flex {
