@@ -1,11 +1,11 @@
 :root {
-  font-family: 'Lora', serif;
+  font-family: 'Cormorant Garamond', serif;
   line-height: 1.5;
   font-weight: 400;
   font-size: 100%;
   color-scheme: light dark;
-  color: rgba(26, 86, 224, 0.87);
-  background-color: #e2fce5;
+  color: #4C403D;
+  background-color: #E6F0DE;
 }
 
 a {

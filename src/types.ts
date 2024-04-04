@@ -14,4 +14,5 @@ export type Observation = {
     comName: string;
     locName: string;
     obsDt: string;
+    sciName: string;
 }

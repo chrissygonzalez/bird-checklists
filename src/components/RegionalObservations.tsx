@@ -5,6 +5,7 @@ import RegionSelect from './RegionSelect';
 import Observations from "./Observations";
 import StateSelect from "./StateSelect";
 import ObservationsByDate from "./ObservationsByDate";
+import ObservationsByBird from "./ObservationsByBird";
 
 const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
@@ -12,8 +13,8 @@ const RegionalObservations = () => {
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState([]);
     const [obs, setObs] = useState<Observation[]>([]);
-    const [sort, setSort] = useState('date');
     const [birdMap, setBirdMap] = useState(new Map());
+    const [viewType, setViewType] = useState('date');
 
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
@@ -76,6 +77,20 @@ const RegionalObservations = () => {
         return birdMap;
     }
 
+    const getBirdLetterMap = (birds: Observation[]) => {
+        const birdMap: Map<string, Observation[]> = new Map();
+        for (const ob of birds) {
+            const key = ob['comName'][0];
+            if (birdMap.has(String(key))) {
+                const arr = birdMap.get(String(key));
+                arr?.push(ob);
+            } else {
+                birdMap.set(String(key), [ob]);
+            }
+        }
+        return birdMap;
+    }
+
     const sortMapDecreasing = (a: [string, Observation[]], b: [string, Observation[]]) => {
         if (a[0] < b[0]) {
             return 1;
@@ -87,9 +102,11 @@ const RegionalObservations = () => {
     }
 
     const viewByBird = () => {
-        const map = getBirdDataMap(obs, 'comName');
+        const map = getBirdLetterMap(obs);
         const sorted = new Map([...map.entries()].sort());
+        console.log(sorted);
         setBirdMap(sorted);
+        setViewType('bird');
     }
 
     const initialViewByDate = (birds: Observation[]) => {
@@ -111,15 +128,16 @@ const RegionalObservations = () => {
     }
 
     return (
-        <div className="inputs">
-            <div>
+        <div>
+            <header>
+                <h1 className='langar-regular header-text'>Birds Nearby</h1>
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
-            </div>
+            </header>
             <button onClick={viewByDate}>Sort by date</button>
             <button onClick={viewByBird}>Sort by bird name</button>
             <button onClick={viewByLocation}>Sort by location</button>
-            <ObservationsByDate obsMap={birdMap} />
+            {viewType === 'bird' ? <ObservationsByBird obsMap={birdMap} /> : <ObservationsByDate obsMap={birdMap} />}
         </div>
     )
 }

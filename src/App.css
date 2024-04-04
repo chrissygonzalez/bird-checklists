@@ -1,7 +1,15 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+header {
+  height: 62px;
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 ul {
@@ -23,17 +31,38 @@ p {
 
 select,
 input {
-  background-color: #fff;
-  color: rgba(128, 71, 51, 0.87);
+  font-family: "Merriweather", serif;
+  font-weight: 300;
+  font-style: normal;
+  background-color: #E6F0DE;
+  color: #4C403D;
   padding: 0.5rem;
   margin: 0.5rem;
-  border: 1px solid rgba(128, 71, 51, 0.5);
-  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid #4C403D;
+  border-radius: 0;
+  width: 175px;
+  box-sizing: border-box;
 }
+
+/* option {
+  min-height: 0;
+} */
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #000;
   fill: #000;
+}
+
+.langar-regular {
+  font-family: "Langar", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.header-text {
+  font-size: 1.8rem;
+  margin: 0.5rem 4rem 0 2rem;
 }
 
 .obs-container {
@@ -59,4 +88,41 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .location {
   font-size: 0.8rem;
+}
+
+.bird {
+  margin: 1rem 0;
+}
+
+.bird-name {
+  font-size: 1.5rem;
+}
+
+.bird-species {
+  font-size: 1.2rem;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.bird-alpha {
+  font-family: "Langar", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.8rem;
+  color: #2885F3;
+  border-top: 3px solid #2885F3;
+  margin-left: 1rem;
+  margin-bottom: 0;
+  padding-top: 0.5rem;
+}
+
+.bird-letter {
+  min-width: 250px;
+  margin: 0 2rem;
+}
+
+.bird-container {
+  display: flex;
+  overflow-x: scroll;
 }
