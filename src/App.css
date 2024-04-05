@@ -12,6 +12,21 @@ header {
   align-items: center;
 }
 
+nav {
+  height: 50px;
+  border-bottom: 1px solid #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  height: 100%;
+  border-radius: 0%;
+  border: 1px solid #fff;
+  background-color: #fff;
+  color: #4C403D;
+}
+
 ul {
   list-style-type: none;
 }
@@ -125,4 +140,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .bird-container {
   display: flex;
   overflow-x: scroll;
+}
+
+.date-container {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.date-day {
+  background-color: #fff;
+  border-radius: 8px;
+  min-width: 250px;
+  margin: 0 2rem;
 }

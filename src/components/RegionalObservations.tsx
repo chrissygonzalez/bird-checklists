@@ -115,10 +115,12 @@ const RegionalObservations = () => {
         setBirdMap(sorted);
     }
 
+    // TODO: add a secondary map to date to group by location within day
     const viewByDate = () => {
         const map = getBirdDataMap(obs, 'obsDt');
         const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
         setBirdMap(sorted);
+        setViewType('date');
     }
 
     const viewByLocation = () => {
@@ -130,13 +132,19 @@ const RegionalObservations = () => {
     return (
         <div>
             <header>
-                <h1 className='langar-regular header-text'>Birds Nearby</h1>
+                <h1 className='langar-regular header-text'>Neighborhood Birds</h1>
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </header>
-            <button onClick={viewByDate}>Sort by date</button>
-            <button onClick={viewByBird}>Sort by bird name</button>
-            <button onClick={viewByLocation}>Sort by location</button>
+            <nav>
+                <div></div>
+                <div className="flex">
+                    <p>View by:</p>
+                    <button onClick={viewByDate}>Date</button>
+                    <button onClick={viewByBird}>Name</button>
+                    <button onClick={viewByLocation}>Location</button>
+                </div>
+            </nav>
             {viewType === 'bird' ? <ObservationsByBird obsMap={birdMap} /> : <ObservationsByDate obsMap={birdMap} />}
         </div>
     )
