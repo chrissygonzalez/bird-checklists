@@ -59,7 +59,7 @@ const RegionalObservations = () => {
             .then(data => {
                 setObs(data);
                 initialViewByDate(data);
-                console.log(data);
+                // console.log(data);
             });
     }
 
@@ -67,20 +67,6 @@ const RegionalObservations = () => {
         const birdMap: Map<string, Observation[]> = new Map();
         for (const ob of birds) {
             const key = ob[field as keyof Observation];
-            if (birdMap.has(String(key))) {
-                const arr = birdMap.get(String(key));
-                arr?.push(ob);
-            } else {
-                birdMap.set(String(key), [ob]);
-            }
-        }
-        return birdMap;
-    }
-
-    const getBirdLetterMap = (birds: Observation[]) => {
-        const birdMap: Map<string, Observation[]> = new Map();
-        for (const ob of birds) {
-            const key = ob['comName'][0];
             if (birdMap.has(String(key))) {
                 const arr = birdMap.get(String(key));
                 arr?.push(ob);
@@ -102,10 +88,6 @@ const RegionalObservations = () => {
     }
 
     const viewByBird = () => {
-        const map = getBirdLetterMap(obs);
-        const sorted = new Map([...map.entries()].sort());
-        console.log(sorted);
-        setBirdMap(sorted);
         setViewType('bird');
     }
 
@@ -117,9 +99,9 @@ const RegionalObservations = () => {
 
     // TODO: add a secondary map to date to group by location within day
     const viewByDate = () => {
-        const map = getBirdDataMap(obs, 'obsDt');
-        const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
-        setBirdMap(sorted);
+        // const map = getBirdDataMap(obs, 'obsDt');
+        // const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
+        // setBirdMap(sorted);
         setViewType('date');
     }
 
@@ -145,7 +127,7 @@ const RegionalObservations = () => {
                     <button onClick={viewByLocation}>Location</button>
                 </div>
             </nav>
-            {viewType === 'bird' ? <ObservationsByBird obsMap={birdMap} /> : <ObservationsByDate obsMap={birdMap} />}
+            {viewType === 'bird' ? <ObservationsByBird birds={obs} /> : <ObservationsByDate birds={obs} />}
         </div>
     )
 }

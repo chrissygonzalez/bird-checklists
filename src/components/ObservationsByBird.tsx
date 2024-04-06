@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Observation } from "../types";
 
 const Obs = ({ ob }: { ob: Observation }) => {
@@ -7,11 +8,34 @@ const Obs = ({ ob }: { ob: Observation }) => {
     </div>
 }
 
-const ObservationsByBird = ({ obsMap }: { obsMap: Map<string, Observation[]> }) => {
+const ObservationsByBird = ({ birds }: { birds: Observation[] }) => {
+    const [obsMap, setObsMap] = useState<Map<string, Observation[]>>(new Map());
+
+    useEffect(() => {
+        const birdMap: Map<string, Observation[]> = new Map();
+        for (const ob of birds) {
+            const key = ob['comName'][0];
+            if (birdMap.has(String(key))) {
+                const arr = birdMap.get(String(key));
+                arr?.push(ob);
+            } else {
+                birdMap.set(String(key), [ob]);
+            }
+        }
+        const sorted = new Map([...birdMap.entries()].sort())
+        setObsMap(sorted);
+    }, []);
+
     const keys = Array.from(obsMap.keys());
     return (
         <div className="bird-container">
-            {keys.map(key => <div key={key} className="bird-letter"><h3 className="bird-alpha">{key}</h3> {obsMap?.get(key)?.map(ob => <Obs ob={ob} key={ob.subId + ob.speciesCode} />)}</div>)}
+            {keys.map(key => {
+                return (
+                    <div key={key} className="bird-letter">
+                        <h3 className="bird-alpha">{key}</h3>
+                        {obsMap?.get(key)?.map(ob => <Obs ob={ob} key={ob.subId + ob.speciesCode} />)}
+                    </div>)
+            })}
         </div>
     )
 }
