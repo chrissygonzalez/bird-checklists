@@ -58,8 +58,6 @@ const RegionalObservations = () => {
             .then(res => res.json())
             .then(data => {
                 setObs(data);
-                initialViewByDate(data);
-                // console.log(data);
             });
     }
 
@@ -91,17 +89,7 @@ const RegionalObservations = () => {
         setViewType('bird');
     }
 
-    const initialViewByDate = (birds: Observation[]) => {
-        const map = getBirdDataMap(birds, 'obsDt');
-        const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
-        setBirdMap(sorted);
-    }
-
-    // TODO: add a secondary map to date to group by location within day
     const viewByDate = () => {
-        // const map = getBirdDataMap(obs, 'obsDt');
-        // const sorted = new Map([...map.entries()].sort(sortMapDecreasing));
-        // setBirdMap(sorted);
         setViewType('date');
     }
 
@@ -127,7 +115,7 @@ const RegionalObservations = () => {
                     <button onClick={viewByLocation}>Location</button>
                 </div>
             </nav>
-            {viewType === 'bird' ? <ObservationsByBird birds={obs} /> : <ObservationsByDate birds={obs} />}
+            {viewType === 'date' ? <ObservationsByDate birds={obs} /> : <ObservationsByBird birds={obs} />}
         </div>
     )
 }

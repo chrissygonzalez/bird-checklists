@@ -145,11 +145,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .date-container {
   display: flex;
   overflow-x: scroll;
+  font-size: 1.3rem;
 }
 
 .date-day {
   background-color: #fff;
   border-radius: 8px;
-  min-width: 250px;
+  min-width: 400px;
   margin: 0 2rem;
+  padding: 1rem;
+}
+
+.date-heading {
+  font-family: "Langar", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.5rem;
+  /* color: #2885F3; */
+  margin-left: 1rem;
+}
+
+.date-location {
+  margin: 2rem 0;
+}
+
+.date-seen {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  /* font-style: italic; */
+  margin-top: 0.5rem;
+  color: #2885F3;
+}
+
+.date-obs {
+  font-size: 1.5rem;
+  /* color: #4C403D; */
 }

@@ -3,16 +3,14 @@ import { Observation } from "../types";
 import { formatDate } from "../helpers";
 
 const Obs = ({ ob }: { ob: Observation }) => {
-    return <div>
-        <p>{ob.howMany} &times; {ob.comName}</p>
-    </div>
+    return <p className="date-obs">{ob.howMany} &times; {ob.comName}</p>
 }
 
 const Location = ({ location, obs }: { location: string, obs: Observation[] }) => {
     return (
-        <div>
+        <div className="date-location">
+            {location && <p className="date-seen">{location}</p>}
             {obs?.map(ob => <Obs ob={ob} key={ob.subId + ob.speciesCode} />)}
-            {location && `Observed at ${location}`}
         </div>)
 }
 
@@ -55,7 +53,7 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
 
                 return (
                     <div key={day} className="date-day">
-                        <h3>{formatDate(day)}</h3>
+                        <h3 className="date-heading">{formatDate(day)}</h3>
                         {locations.map(loc => {
                             const obsAtLoc = locMap?.get(loc) || [];
                             return (
