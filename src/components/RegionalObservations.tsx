@@ -55,7 +55,7 @@ const RegionalObservations = () => {
     }
 
     const fetchObs = () => {
-        fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent`, requestOptions)
+        fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent?back=30`, requestOptions)
             .then(res => res.json())
             .then(data => {
                 setObs(data);

@@ -22,19 +22,7 @@ const ObservationsByLocation = ({ birds }: { birds: Observation[] }) => {
             }
         }
         setLocSet(locations);
-        // const birdMap: Map<string, Observation[]> = new Map();
-        // for (const ob of birds) {
-        //     const key = ob['comName'][0];
-        //     if (birdMap.has(String(key))) {
-        //         const arr = birdMap.get(String(key));
-        //         arr?.push(ob);
-        //     } else {
-        //         birdMap.set(String(key), [ob]);
-        //     }
-        // }
-        // const sorted = new Map([...birdMap.entries()].sort())
-        // setObsMap(sorted);
-    }, []);
+    }, [birds]);
 
     return (
         <div>
