@@ -15,4 +15,6 @@ export type Observation = {
     locName: string;
     obsDt: string;
     sciName: string;
+    lat: string;
+    lng: string;
 }

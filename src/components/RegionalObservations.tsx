@@ -6,6 +6,7 @@ import Observations from "./Observations";
 import StateSelect from "./StateSelect";
 import ObservationsByDate from "./ObservationsByDate";
 import ObservationsByBird from "./ObservationsByBird";
+import ObservationsByLocation from "./ObservationsByLocation";
 
 const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
@@ -58,21 +59,8 @@ const RegionalObservations = () => {
             .then(res => res.json())
             .then(data => {
                 setObs(data);
+                console.log(data);
             });
-    }
-
-    const getBirdDataMap = (birds: Observation[], field: string | number) => {
-        const birdMap: Map<string, Observation[]> = new Map();
-        for (const ob of birds) {
-            const key = ob[field as keyof Observation];
-            if (birdMap.has(String(key))) {
-                const arr = birdMap.get(String(key));
-                arr?.push(ob);
-            } else {
-                birdMap.set(String(key), [ob]);
-            }
-        }
-        return birdMap;
     }
 
     const sortMapDecreasing = (a: [string, Observation[]], b: [string, Observation[]]) => {
@@ -94,9 +82,7 @@ const RegionalObservations = () => {
     }
 
     const viewByLocation = () => {
-        const map = getBirdDataMap(obs, 'locName');
-        const sorted = new Map([...map.entries()].sort());
-        setBirdMap(sorted);
+        setViewType('location');
     }
 
     return (
@@ -110,12 +96,14 @@ const RegionalObservations = () => {
                 <div></div>
                 <div className="flex">
                     <p>View by:</p>
-                    <button onClick={viewByDate}>Date</button>
-                    <button onClick={viewByBird}>Name</button>
-                    <button onClick={viewByLocation}>Location</button>
+                    <button className={viewType === 'date' ? 'selected' : ''} onClick={viewByDate}>Date</button>
+                    <button className={viewType === 'bird' ? 'selected' : ''} onClick={viewByBird}>Name</button>
+                    <button className={viewType === 'location' ? 'selected' : ''} onClick={viewByLocation}>Location</button>
                 </div>
             </nav>
-            {viewType === 'date' ? <ObservationsByDate birds={obs} /> : <ObservationsByBird birds={obs} />}
+            {viewType === 'date' && <ObservationsByDate birds={obs} />}
+            {viewType === 'bird' && <ObservationsByBird birds={obs} />}
+            {viewType === 'location' && <ObservationsByLocation birds={obs} />}
         </div>
     )
 }

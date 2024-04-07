@@ -39,6 +39,10 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
             }
         }
         setObsMap(birdMap);
+        birdMap.forEach((day, key) => {
+            const sorted = new Map([...day.entries()].sort());
+            birdMap.set(key, sorted);
+        })
     }, [birds]);
 
     const days = Array.from(obsMap.keys());
