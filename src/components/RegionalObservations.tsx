@@ -1,8 +1,7 @@
-import { useState, useEffect, MouseEventHandler } from "react";
+import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import { Observation } from '../types';
 import RegionSelect from './RegionSelect';
-import Observations from "./Observations";
 import StateSelect from "./StateSelect";
 import ObservationsByDate from "./ObservationsByDate";
 import ObservationsByBird from "./ObservationsByBird";
@@ -14,7 +13,6 @@ const RegionalObservations = () => {
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState([]);
     const [obs, setObs] = useState<Observation[]>([]);
-    const [birdMap, setBirdMap] = useState(new Map());
     const [viewType, setViewType] = useState('date');
 
     useEffect(() => {
@@ -27,7 +25,6 @@ const RegionalObservations = () => {
             sessionStorage.setItem('selectedRegion', '');
         }
         setObs([]);
-        setBirdMap(new Map());
     }, [selectedState]);
 
     useEffect(() => {
@@ -36,7 +33,6 @@ const RegionalObservations = () => {
             fetchObs();
         } else {
             setObs([]);
-            setBirdMap(new Map());
         }
     }, [selectedRegion]);
 
@@ -54,6 +50,7 @@ const RegionalObservations = () => {
             .then(data => setRegions(data));
     }
 
+    // TODO: make map of location ids / names and species codes / names to use as dictionaries
     const fetchObs = () => {
         fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent?back=30`, requestOptions)
             .then(res => res.json())
@@ -61,28 +58,6 @@ const RegionalObservations = () => {
                 setObs(data);
                 console.log(data);
             });
-    }
-
-    const sortMapDecreasing = (a: [string, Observation[]], b: [string, Observation[]]) => {
-        if (a[0] < b[0]) {
-            return 1;
-        } else if (a[0] === b[0]) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-
-    const viewByBird = () => {
-        setViewType('bird');
-    }
-
-    const viewByDate = () => {
-        setViewType('date');
-    }
-
-    const viewByLocation = () => {
-        setViewType('location');
     }
 
     return (
@@ -96,9 +71,9 @@ const RegionalObservations = () => {
                 <div></div>
                 <div className="flex">
                     <p>View by:</p>
-                    <button className={viewType === 'date' ? 'selected' : ''} onClick={viewByDate}>Date</button>
-                    <button className={viewType === 'bird' ? 'selected' : ''} onClick={viewByBird}>Name</button>
-                    <button className={viewType === 'location' ? 'selected' : ''} onClick={viewByLocation}>Location</button>
+                    <button className={viewType === 'date' ? 'selected' : ''} onClick={() => setViewType('date')}>Date</button>
+                    <button className={viewType === 'bird' ? 'selected' : ''} onClick={() => setViewType('bird')}>Name</button>
+                    <button className={viewType === 'location' ? 'selected' : ''} onClick={() => setViewType('location')}>Location</button>
                 </div>
             </nav>
             {viewType === 'date' && <ObservationsByDate birds={obs} />}
