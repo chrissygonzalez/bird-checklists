@@ -21,17 +21,21 @@ const Obs = ({ ob, handleClick }: { ob: Observation, handleClick: () => void }) 
     </div>
 }
 
-const Checklist = ({ list }: { list: Checklist }) => {
+const Checklist = ({ list, speciesMap, locationMap }: { list: Checklist, speciesMap: Map<string, string>, locationMap: Map<string, string> }) => {
     return (
         <div className="checklist">
             <p>{formatDate(list.obsDt)}</p>
             <p>{list.userDisplayName}</p>
-            <p>Location ID: {list.locId}</p>
-            <ul>{list.obs.map(ob => <li>{ob.speciesCode} {ob.howManyStr !== 'X' ? ob.howManyStr : ''}</li>)}</ul>
+            <p>Location ID: {locationMap.get(list.locId)}</p>
+            <ul>{list.obs.map(ob => {
+                if (speciesMap.has(ob.speciesCode)) {
+                    return <li>{speciesMap.get(ob.speciesCode)} {ob.howManyStr !== 'X' ? ob.howManyStr : ''}</li>
+                }
+            })}</ul>
         </div>)
 }
 
-const ObservationsByBird = ({ birds }: { birds: Observation[] }) => {
+const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observation[], speciesMap: Map<string, string>, locationMap: Map<string, string> }) => {
     const [obsMap, setObsMap] = useState<Map<string, Observation[]>>(new Map());
     const [checklist, setChecklist] = useState(undefined);
 
@@ -70,7 +74,7 @@ const ObservationsByBird = ({ birds }: { birds: Observation[] }) => {
     const keys = Array.from(obsMap.keys());
     return (
         <>
-            {checklist && <Checklist list={checklist} />}
+            {checklist && <Checklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} />}
             <div className="bird-container">
                 {keys.map(key => {
                     return (
