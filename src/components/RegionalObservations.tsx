@@ -102,7 +102,7 @@ const RegionalObservations = () => {
             </nav>
             {viewType === 'date' && <ObservationsByDate birds={obs} />}
             {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
-            {viewType === 'location' && <ObservationsByLocation birds={obs} />}
+            {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
         </div>
     )
 }

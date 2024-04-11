@@ -12,6 +12,7 @@ export type Observation = {
     subId: string;
     speciesCode: string;
     comName: string;
+    locId: string;
     locName: string;
     obsDt: string;
     sciName: string;
