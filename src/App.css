@@ -210,3 +210,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
   right: 0;
 }
+
+.location-pin {
+  background-color: #C2DFAC;
+  max-width: 150px;
+  /* max-height: 25px; */
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 13px;
+  filter: drop-shadow(5px 5px)
+}
+
+.location-pin p {
+  margin: 0;
+  /* width: 150px; */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
