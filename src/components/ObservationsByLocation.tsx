@@ -63,17 +63,23 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
     }, [birds]);
 
     return (
-        <div className='flex'>
-            <div>
-                {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v]) => <p onClick={() => handleMarkerClick(k)} key={k}>{v.name}</p>)}
+        <div className='location-container'>
+            <div className="location-name-container">
+                {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v], index) => {
+                    return (
+                        <div className='location-name-item'><div className="location-number">{index + 1}</div>
+                            <p className="location-name" onClick={() => handleMarkerClick(k)} key={k}>
+                                {v.name}
+                            </p></div>)
+                })}
             </div>
             <GMap
                 mapId='birdLocations'
-                style={{ width: '80vw', height: '80vh' }}
+                style={{ width: '70vw', height: '90vh' }}
                 defaultZoom={8}
                 defaultCenter={{ lat: 43.64, lng: -79.41 }}
                 gestureHandling={'greedy'}
-                disableDefaultUI={false}>
+                disableDefaultUI={true}>
                 {Array.from(markers).map(([k, v]) => <CustomMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
             </GMap>
         </div>)

@@ -211,20 +211,43 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   right: 0;
 }
 
-.location-pin {
-  background-color: #C2DFAC;
-  max-width: 150px;
-  /* max-height: 25px; */
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 13px;
-  filter: drop-shadow(5px 5px)
+.location-container {
+  display: flex;
+  justify-content: space-between;
+  height: 90vh;
 }
 
-.location-pin p {
-  margin: 0;
-  /* width: 150px; */
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.location-name-container {
+  overflow-y: scroll;
+  max-height: 100%;
+  margin-left: 2rem;
+}
+
+.location-name-item {
+  display: flex;
+}
+
+.location-name {
+  font-size: 1.25rem;
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+.location-name:hover {
+  text-decoration: underline;
+}
+
+.location-number {
+  background-color: #2885F3;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-block;
+  font-family: "Langar", system-ui;
+  color: #fff;
+  font-size: 1rem;
+  align-self: flex-start;
+  text-align: center;
+  margin-top: 10px;
+  flex-shrink: 0;
 }
