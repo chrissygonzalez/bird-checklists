@@ -1,4 +1,4 @@
-import { Map as GMap, AdvancedMarker, useMap, Pin } from '@vis.gl/react-google-maps';
+import { Map as GMap, AdvancedMarker, useMap, InfoWindow, useAdvancedMarkerRef, MapMouseEvent } from '@vis.gl/react-google-maps';
 import { useState, useEffect } from "react";
 import { Observation } from "../types";
 
@@ -9,28 +9,40 @@ type Location = {
     name: string;
 }
 
-const CustomPin = ({ name }: { name: string }) => {
+const CustomMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Location, bounds: google.maps.LatLngBounds, id: string, openWindows: Set<string>, handleClick: (id: string) => void }) => {
+    const map = useMap();
+    const [markerRef, marker] = useAdvancedMarkerRef();
+
+    const handleMarkerClick = () => {
+        handleClick(id);
+    }
+
+    useEffect(() => { map?.fitBounds(bounds, 0); }, [])
+
     return (
-        <div className="location-pin">
-            {/* <p>{name}</p> */}
-            <Pin />
+        <div>
+            <AdvancedMarker onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
+            {openWindows.has(id) && <InfoWindow anchor={marker}>
+                {mkr.name}
+            </InfoWindow>}
         </div>)
 }
 
-const CustomMarker = ({ mkr, bounds }: { mkr: Location, bounds: google.maps.LatLngBounds }) => {
-    const map = useMap();
-    map?.fitBounds(bounds, 0);
-    return (<AdvancedMarker onClick={() => console.log(mkr.name)} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }}>
-        {/* <CustomPin name={mkr.name} /> */}
-        <Pin />
-    </AdvancedMarker>)
-}
-
 const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], locationMap: Map<string, string> }) => {
-    const [center, setCenter] = useState<google.maps.LatLng>();
     const [markers, setMarkers] = useState<Map<string, Location>>(new Map());
     const [mapBounds, setMapBounds] = useState<google.maps.LatLngBounds>(new window.google.maps.LatLngBounds());
     const bounds = new window.google.maps.LatLngBounds();
+    const [openWindows, setOpenWindows] = useState<Set<string>>(new Set());
+
+    const handleMarkerClick = (id: string) => {
+        const open = new Set(openWindows);
+        if (open.has(id)) {
+            open.delete(id)
+        } else {
+            open.add(id);
+        }
+        setOpenWindows(open);
+    }
 
     useEffect(() => {
         const mks: Map<string, Location> = new Map();
@@ -47,24 +59,22 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
                 mks.set(locInfo.key, locInfo);
         }
         setMapBounds(bounds);
-        setCenter(bounds.getCenter());
         setMarkers(mks);
     }, [birds]);
 
     return (
         <div className='flex'>
             <div>
-                {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v]) => <p key={k}>{v.name}</p>)}
+                {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v]) => <p onClick={() => handleMarkerClick(k)} key={k}>{v.name}</p>)}
             </div>
             <GMap
                 mapId='birdLocations'
                 style={{ width: '80vw', height: '80vh' }}
                 defaultZoom={8}
                 defaultCenter={{ lat: 43.64, lng: -79.41 }}
-                center={center}
                 gestureHandling={'greedy'}
                 disableDefaultUI={false}>
-                {Array.from(markers).map(([_, v]) => <CustomMarker mkr={v} bounds={mapBounds} />)}
+                {Array.from(markers).map(([k, v]) => <CustomMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
             </GMap>
         </div>)
 }
