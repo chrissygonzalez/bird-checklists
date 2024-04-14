@@ -19,3 +19,10 @@ export type Observation = {
     lat: string;
     lng: string;
 }
+
+export type Location = {
+    key: string;
+    lat: string;
+    lng: string;
+    name: string;
+}

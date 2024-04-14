@@ -1,33 +1,7 @@
-import { Map as GMap, AdvancedMarker, useMap, InfoWindow, useAdvancedMarkerRef, MapMouseEvent } from '@vis.gl/react-google-maps';
+import { Map as GMap } from '@vis.gl/react-google-maps';
 import { useState, useEffect } from "react";
-import { Observation } from "../types";
-
-type Location = {
-    key: string;
-    lat: string;
-    lng: string;
-    name: string;
-}
-
-const CustomMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Location, bounds: google.maps.LatLngBounds, id: string, openWindows: Set<string>, handleClick: (id: string) => void }) => {
-    const map = useMap();
-    const [markerRef, marker] = useAdvancedMarkerRef();
-
-    const handleMarkerClick = () => {
-        handleClick(id);
-    }
-
-    useEffect(() => { map?.fitBounds(bounds, 0); }, [])
-
-    return (
-        <div>
-            <AdvancedMarker onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
-            {openWindows.has(id) && <InfoWindow anchor={marker}>
-                <p className='location-marker-name'>{mkr.name}</p>
-                <a href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
-            </InfoWindow>}
-        </div>)
-}
+import { Observation, Location } from "../types";
+import MapMarker from './MapMarker';
 
 const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], locationMap: Map<string, string> }) => {
     const [markers, setMarkers] = useState<Map<string, Location>>(new Map());
@@ -83,7 +57,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
                 defaultCenter={{ lat: 43.64, lng: -79.41 }}
                 gestureHandling={'greedy'}
                 disableDefaultUI={true}>
-                {Array.from(markers).map(([k, v]) => <CustomMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
+                {Array.from(markers).map(([k, v]) => <MapMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
             </GMap>
         </div>)
 }
