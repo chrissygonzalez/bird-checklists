@@ -23,7 +23,8 @@ const CustomMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Loca
         <div>
             <AdvancedMarker onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
             {openWindows.has(id) && <InfoWindow anchor={marker}>
-                {mkr.name}
+                <p className='location-marker-name'>{mkr.name}</p>
+                <a href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
             </InfoWindow>}
         </div>)
 }
@@ -67,10 +68,12 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
             <div className="location-name-container">
                 {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v], index) => {
                     return (
-                        <div className='location-name-item'><div className="location-number">{index + 1}</div>
-                            <p className="location-name" onClick={() => handleMarkerClick(k)} key={k}>
+                        <div className='location-name-item' key={k}>
+                            <div className="location-number">{index + 1}</div>
+                            <p className="location-name" onClick={() => handleMarkerClick(k)}>
                                 {v.name}
-                            </p></div>)
+                            </p>
+                        </div>)
                 })}
             </div>
             <GMap

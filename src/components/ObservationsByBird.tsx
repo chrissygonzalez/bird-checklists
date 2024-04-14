@@ -29,7 +29,7 @@ const Checklist = ({ list, speciesMap, locationMap }: { list: Checklist, species
             <p>Location ID: {locationMap.get(list.locId)}</p>
             <ul>{list.obs.map(ob => {
                 if (speciesMap.has(ob.speciesCode)) {
-                    return <li>{speciesMap.get(ob.speciesCode)} {ob.howManyStr !== 'X' ? ob.howManyStr : ''}</li>
+                    return <li key={ob.speciesCode}>{speciesMap.get(ob.speciesCode)} {ob.howManyStr !== 'X' ? ob.howManyStr : ''}</li>
                 }
             })}</ul>
         </div>)

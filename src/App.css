@@ -27,11 +27,6 @@ button {
   color: #4C403D;
 }
 
-button:focus {
-  outline: 1px solid #000;
-  border-radius: 0;
-}
-
 ul {
   list-style-type: none;
 }
@@ -121,6 +116,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .bird-name {
   font-size: 1.5rem;
+}
+
+.bird-name:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .bird-species {
@@ -219,8 +219,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .location-name-container {
   overflow-y: scroll;
-  max-height: 100%;
   margin-left: 2rem;
+  padding-bottom: 2rem;
 }
 
 .location-name-item {
@@ -238,16 +238,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .location-number {
-  background-color: #2885F3;
+  background-color: #fff;
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;
   display: inline-block;
   font-family: "Langar", system-ui;
-  color: #fff;
+  color: #2885F3;
   font-size: 1rem;
   align-self: flex-start;
   text-align: center;
   margin-top: 10px;
   flex-shrink: 0;
+}
+
+.location-marker-name {
+  margin-left: 0;
 }
