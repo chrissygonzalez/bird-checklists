@@ -156,28 +156,41 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   overflow-x: scroll;
   font-size: 1.3rem;
-  padding: 2rem;
+  padding: 0 2rem;
+  flex-direction: column;
+  /* background-color: #fff;
+  border-radius: 8px; */
+  margin: 2rem;
+}
+
+.dates {
+  display: flex;
+  overflow-x: scroll;
 }
 
 .date-day {
-  background-color: #fff;
-  border-radius: 8px;
+  /* background-color: #fff;
+  border-radius: 8px; */
   min-width: 400px;
-  margin: 0 2rem;
-  padding: 1rem;
+  /* margin: 0 2rem; */
+  /* padding: 1rem; */
 }
 
 .date-heading {
   font-family: "Langar", system-ui;
   font-weight: 400;
   font-style: normal;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   /* color: #2885F3; */
   margin-left: 1rem;
 }
 
+.date-locations {
+  columns: 3;
+}
+
 .date-location {
-  margin: 2rem 0;
+  margin: 0 0 2rem 0;
 }
 
 .date-seen {
@@ -186,11 +199,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   /* font-style: italic; */
   margin-top: 0.5rem;
   color: #2885F3;
+  font-size: 1.25rem;
 }
 
 .date-obs {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   /* color: #4C403D; */
+}
+
+.date-detail {
+  background-color: #fff;
 }
 
 .selected {

@@ -2,20 +2,39 @@ import { useState, useEffect } from "react";
 import { Observation } from "../types";
 import { formatDate } from "../helpers";
 
-const Obs = ({ ob }: { ob: Observation }) => {
-    return <p className="date-obs">{ob.howMany} &times; {ob.comName}</p>
-}
-
 const Location = ({ location, obs }: { location: string, obs: Observation[] }) => {
     return (
         <div className="date-location">
             {location && <p className="date-seen">{location}</p>}
-            {obs?.map(ob => <Obs ob={ob} key={ob.subId + ob.speciesCode} />)}
+            {obs?.map(ob => <p key={ob.subId + ob.speciesCode} className="date-obs">{ob.comName} • {ob.howMany}</p>)}
         </div>)
+}
+
+const DayDetail = ({ day, obsMap }: { day: string, obsMap: Map<string, Map<string, Observation[]>> }) => {
+    const locMap = obsMap.get(day);
+    let locations: string[] = [];
+    if (locMap && locMap.size > 0) {
+        locations = Array.from(locMap.keys());
+    }
+
+    return (
+        <div className="date-detail">
+            <h3 className="date-heading">{formatDate(day)}</h3>
+            <div className="date-locations">
+                {locations.map(loc => {
+                    const obsAtLoc = locMap?.get(loc) || [];
+                    return (
+                        <Location key={loc} location={loc} obs={obsAtLoc} />
+                    )
+                })}
+            </div>
+        </div>
+    )
 }
 
 const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
     const [obsMap, setObsMap] = useState<Map<string, Map<string, Observation[]>>>(new Map());
+    const [currentDay, setCurrentDay] = useState('');
 
     useEffect(() => {
         const birdMap: Map<string, Map<string, Observation[]>> = new Map();
@@ -48,25 +67,17 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
     const days = Array.from(obsMap.keys());
     return (
         <div className="date-container">
-            {days.map(day => {
-                const locMap = obsMap.get(day);
-                let locations: string[] = [];
-                if (locMap && locMap.size > 0) {
-                    locations = Array.from(locMap.keys());
-                }
-
-                return (
-                    <div key={day} className="date-day">
-                        <h3 className="date-heading">{formatDate(day)}</h3>
-                        {locations.map(loc => {
-                            const obsAtLoc = locMap?.get(loc) || [];
-                            return (
-                                <Location key={loc} location={loc} obs={obsAtLoc} />
-                            )
-                        })}
-                    </div>
-                )
-            })}
+            <div className="dates">
+                {days.map(day => {
+                    return (
+                        <div key={day} className="date-day">
+                            <h3 className="date-heading" onClick={() => setCurrentDay(day)}>{formatDate(day)}</h3>
+                            <p>will display some summary of the day here</p>
+                        </div>
+                    )
+                })}
+            </div>
+            {currentDay && <DayDetail day={currentDay} obsMap={obsMap} />}
         </div>
     )
 }
