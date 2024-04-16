@@ -69,10 +69,17 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
         <div className="date-container">
             <div className="dates">
                 {days.map(day => {
+                    const dayData = obsMap.get(day) || [];
+                    let totalSpecies = 0;
+                    for (let entry of dayData) {
+                        // console.log(entry);
+                        totalSpecies += entry[1].length;
+                    }
                     return (
-                        <div key={day} className="date-day">
-                            <h3 className="date-heading" onClick={() => setCurrentDay(day)}>{formatDate(day)}</h3>
-                            <p>will display some summary of the day here</p>
+                        <div key={day} className="date-day" onClick={() => setCurrentDay(day)}>
+                            <h3 className="date-heading">{formatDate(day)}</h3>
+                            <p>{[...dayData.keys()].length} locations</p>
+                            <p>{totalSpecies} species</p>
                         </div>
                     )
                 })}

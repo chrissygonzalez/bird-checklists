@@ -15,7 +15,7 @@ const MapMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Locatio
     return (
         <div>
             <AdvancedMarker onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
-            {openWindows.has(id) && <InfoWindow anchor={marker}>
+            {openWindows.has(id) && <InfoWindow anchor={marker} onCloseClick={handleMarkerClick}>
                 <p className='location-marker-name'>{mkr.name}</p>
                 <a href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
             </InfoWindow>}

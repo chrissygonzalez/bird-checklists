@@ -60,7 +60,7 @@ const RegionalObservations = () => {
                 setObs(data);
                 makeLocationMap(data);
                 makeSpeciesMap(data);
-                console.log(data);
+                // console.log(data);
             });
     }
 
