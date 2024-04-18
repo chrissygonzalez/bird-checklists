@@ -34,6 +34,7 @@ const DayDetail = ({ day, obsMap }: { day: string, obsMap: Map<string, Map<strin
 
 const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
     const [obsMap, setObsMap] = useState<Map<string, Map<string, Observation[]>>>(new Map());
+    const [days, setDays] = useState<string[]>([]);
     const [currentDay, setCurrentDay] = useState('');
 
     useEffect(() => {
@@ -62,9 +63,11 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
             const sorted = new Map([...day.entries()].sort());
             birdMap.set(key, sorted);
         })
+        const dayKeys = [...birdMap.keys()];
+        setDays(dayKeys);
+        setCurrentDay(dayKeys[0])
     }, [birds]);
 
-    const days = Array.from(obsMap.keys());
     return (
         <div className="date-container">
             <div className="dates">

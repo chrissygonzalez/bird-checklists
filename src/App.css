@@ -148,14 +148,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .date-container {
   display: flex;
-  overflow-x: scroll;
   font-size: 1.3rem;
-  flex-direction: column;
+  flex-direction: row;
+  max-height: 90vh;
 }
 
 .dates {
-  display: flex;
-  overflow-x: scroll;
+  overflow-y: scroll;
   padding-left: 0 1rem;
 }
 
@@ -181,11 +180,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .date-locations {
-  columns: 2;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 50px;
 }
 
 .date-location {
   margin: 0 0 2rem 0;
+  width: 250px;
 }
 
 .date-seen {
@@ -203,8 +205,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .date-detail {
-  /* background-color: #fff; */
+  width: 70%;
   padding: 2rem;
+  overflow-y: scroll;
 }
 
 .selected {
