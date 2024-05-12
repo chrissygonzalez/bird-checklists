@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Observation } from "../types";
-import { formatDate } from "../helpers";
+import { formatDate, formatDateNav } from "../helpers";
 
 const Location = ({ location, obs }: { location: string, obs: Observation[] }) => {
     return (
@@ -80,9 +80,8 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
                     }
                     return (
                         <div key={day} className="date-day" onClick={() => setCurrentDay(day)}>
-                            <h3 className="date-heading">{formatDate(day)}</h3>
-                            <p>{[...dayData.keys()].length} locations</p>
-                            <p>{totalSpecies} species</p>
+                            <h3 className="date-heading">{formatDateNav(day)}</h3>
+                            <p>{[...dayData.keys()].length} locations • {totalSpecies} species</p>
                         </div>
                     )
                 })}

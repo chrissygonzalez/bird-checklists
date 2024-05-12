@@ -87,17 +87,28 @@ const RegionalObservations = () => {
     return (
         <div>
             <header>
-                <h1 className='langar-regular header-text'>Birds in Your Neighborhood</h1>
+                <h1 className='langar-regular header-text' onClick={() => setViewType('date')}>Birds in Your Neighborhood</h1>
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </header>
             <nav>
                 <div></div>
                 <div className="flex">
-                    <p>View by:</p>
-                    <button className={viewType === 'date' ? 'selected' : ''} onClick={() => setViewType('date')}>Date</button>
-                    <button className={viewType === 'bird' ? 'selected' : ''} onClick={() => setViewType('bird')}>Name</button>
-                    <button className={viewType === 'location' ? 'selected' : ''} onClick={() => setViewType('location')}>Location</button>
+                    <p className="langar-regular icon-button-label">View by:</p>
+                    <button aria-label="View by date" className={viewType === 'date' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('date')}>
+                        <span className="material-symbols-outlined icon">
+                            calendar_month
+                        </span></button>
+                    <button aria-label="View by bird name" className={viewType === 'bird' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('bird')}>
+                        <span className="material-symbols-outlined icon">
+                            match_case
+                        </span>
+                    </button>
+                    <button aria-label="View by location" className={viewType === 'location' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('location')}>
+                        <span className="material-symbols-outlined icon">
+                            distance
+                        </span>
+                    </button>
                 </div>
             </nav>
             {viewType === 'date' && <ObservationsByDate birds={obs} />}

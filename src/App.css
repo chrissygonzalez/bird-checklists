@@ -12,6 +12,12 @@ header {
   align-items: center;
 }
 
+header:hover {
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #2885F3
+}
+
 nav {
   height: 50px;
   border-bottom: 1px solid #fff;
@@ -77,6 +83,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0.5rem 4rem 0 2rem;
 }
 
+.icon-button-label {
+  margin-right: 10px;
+}
+
+.icon {
+  font-size: 36px;
+}
+
+.icon-btn {
+  margin-left: 2px;
+  transition: background-color 0.25s;
+}
+
+.icon-btn:hover {
+  cursor: pointer;
+  background-color: #C2DFAC
+}
+
 .obs-container {
   display: flex;
   flex-direction: row;
@@ -96,6 +120,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
 
 .location {
@@ -160,14 +185,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .date-day {
   min-width: 200px;
-  background-color: #fff;
-  border-radius: 5px;
-  margin: 1rem;
+  /* background-color: #fff; */
+  /* border-radius: 5px; */
+  /* margin: 1rem; */
   padding: 1rem;
+  border-bottom: 1px solid #666;
 }
 
 .date-day:hover {
-  box-shadow: 0px 1px 5px #8b8b8b;
+  /* box-shadow: 0px 1px 5px #8b8b8b; */
   transition: 0.25s;
 }
 
@@ -177,6 +203,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-style: normal;
   font-size: 1.25rem;
   margin-left: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .date-locations {
@@ -187,7 +215,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .date-location {
   margin: 0 0 2rem 0;
-  width: 250px;
+  width: 350px;
 }
 
 .date-seen {
