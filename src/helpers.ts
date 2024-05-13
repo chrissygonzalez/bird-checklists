@@ -1,6 +1,6 @@
 export const formatDate = (date: string) => {
     const dateOptions: Intl.DateTimeFormatOptions = {
-        weekday: 'short',
+        weekday: 'long',
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -10,7 +10,7 @@ export const formatDate = (date: string) => {
 
 export const formatDateNav = (date: string) => {
     const dateOptions: Intl.DateTimeFormatOptions = {
-        weekday: 'short',
+        weekday: 'long',
         month: 'short',
         day: 'numeric',
     };

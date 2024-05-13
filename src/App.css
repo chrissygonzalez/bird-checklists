@@ -20,7 +20,7 @@ header:hover {
 
 nav {
   height: 50px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 2px solid #fff;
   display: flex;
   justify-content: space-between;
 }
@@ -181,20 +181,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dates {
   overflow-y: scroll;
   padding-left: 0 1rem;
+  border-right: 2px solid #fff;
 }
 
-.date-day {
+.date-nav {
   min-width: 200px;
-  /* background-color: #fff; */
-  /* border-radius: 5px; */
-  /* margin: 1rem; */
   padding: 1rem;
-  border-bottom: 1px solid #666;
+  border-bottom: 2px solid #fff;
 }
 
-.date-day:hover {
-  /* box-shadow: 0px 1px 5px #8b8b8b; */
+.date-nav:hover {
   transition: 0.25s;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.date-selected {
+  background-color: #fff;
 }
 
 .date-heading {
@@ -204,32 +207,40 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 1.25rem;
   margin-left: 1rem;
   margin-top: 0;
+  margin-bottom: 10px;
+  column-span: all;
+}
+
+.date-nav-heading {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.25rem;
+  margin-left: 1rem;
+  margin-top: 0;
   margin-bottom: 0;
+  color: #2885F3;
 }
 
 .date-locations {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 50px;
+  column-count: 2;
+  column-width: 300px;
 }
 
 .date-location {
   margin: 0 0 2rem 0;
   width: 350px;
+  break-inside: avoid;
 }
 
 .date-seen {
   font-family: "Cormorant Garamond", serif;
   font-weight: 400;
-  /* font-style: italic; */
-  margin-top: 0.5rem;
   color: #2885F3;
   font-size: 1.25rem;
 }
 
 .date-obs {
   font-size: 1.25rem;
-  /* color: #4C403D; */
 }
 
 .date-detail {
