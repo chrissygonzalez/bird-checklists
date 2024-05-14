@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import { Observation } from '../types';
+import { formatDate } from "../helpers";
 import RegionSelect from './RegionSelect';
 import StateSelect from "./StateSelect";
 import ObservationsByDate from "./ObservationsByDate";
@@ -60,7 +61,6 @@ const RegionalObservations = () => {
                 setObs(data);
                 makeLocationMap(data);
                 makeSpeciesMap(data);
-                // console.log(data);
             });
     }
 
@@ -92,8 +92,10 @@ const RegionalObservations = () => {
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </header>
             <nav>
-                <div></div>
-                <div className="flex">
+                <div className="obs-desc-container">
+                    {obs?.length > 0 && <p className="obs-desc">Most recent sightings by location ({formatDate(obs[obs.length - 1]?.obsDt)} – {formatDate(obs[0]?.obsDt)})</p>}
+                </div>
+                <div className="flex icon-button-container">
                     <p className="langar-regular icon-button-label">View by:</p>
                     <button aria-label="View by date" className={viewType === 'date' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('date')}>
                         <span className="material-symbols-outlined icon">

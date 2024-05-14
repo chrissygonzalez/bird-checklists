@@ -19,7 +19,7 @@ header:hover {
 }
 
 nav {
-  height: 50px;
+  height: 55px;
   border-bottom: 2px solid #fff;
   display: flex;
   justify-content: space-between;
@@ -28,7 +28,7 @@ nav {
 button {
   height: 100%;
   border-radius: 0%;
-  border: 1px solid #fff;
+  border: none;
   background-color: #fff;
   color: #4C403D;
 }
@@ -72,6 +72,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   fill: #000;
 }
 
+.obs-desc-container {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.obs-desc {
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
 .langar-regular {
   font-family: "Langar", system-ui;
   font-weight: 400;
@@ -83,6 +94,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0.5rem 4rem 0 2rem;
 }
 
+.icon-button-container {
+  margin: 2px 0;
+}
+
 .icon-button-label {
   margin-right: 10px;
 }
@@ -92,7 +107,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .icon-btn {
-  margin-left: 2px;
+  margin: 4px 0 4px 2px;
   transition: background-color 0.25s;
 }
 
@@ -185,13 +200,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .date-nav {
+  transition: 0.2s;
   min-width: 200px;
   padding: 1rem;
   border-bottom: 2px solid #fff;
 }
 
 .date-nav:hover {
-  transition: 0.25s;
   cursor: pointer;
   background-color: #fff;
 }

@@ -51,7 +51,7 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
                     return (
                         <div key={day} className={`date-nav ${day === currentDay ? 'date-selected' : ''}`} onClick={() => setCurrentDay(day)}>
                             <h3 className="date-nav-heading">{formatDateNav(day)}</h3>
-                            <p>{[...dayData.keys()].length} locations • {totalSpecies} species</p>
+                            {/* <p>{[...dayData.keys()].length} locations • {totalSpecies} species</p> */}
                         </div>
                     )
                 })}
