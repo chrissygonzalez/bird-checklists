@@ -12,8 +12,9 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
     const handleMarkerClick = (id: string) => {
         const open = new Set(openWindows);
         if (open.has(id)) {
-            open.delete(id)
+            open.clear();
         } else {
+            open.clear();
             open.add(id);
         }
         setOpenWindows(open);

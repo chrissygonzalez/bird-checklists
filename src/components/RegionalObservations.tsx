@@ -1,12 +1,24 @@
 import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-import { Observation } from '../types';
-import { formatDate } from "../helpers";
+import { EbirdRegion, Observation } from '../types';
 import RegionSelect from './RegionSelect';
 import StateSelect from "./StateSelect";
 import ObservationsByDate from "./ObservationsByDate";
 import ObservationsByBird from "./ObservationsByBird";
 import ObservationsByLocation from "./ObservationsByLocation";
+import ViewNav from "./ViewNav";
+
+const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setSelectedState: React.Dispatch<React.SetStateAction<string>> }) => {
+    return (<div>
+        {states?.map((state: EbirdRegion) => <button key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>)}
+    </div>)
+}
+
+const RegionPicker = ({ regions, setSelectedRegion }: { regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
+    return (<div>
+        {regions?.map((region: EbirdRegion) => <button key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)}
+    </div>)
+}
 
 const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
@@ -18,16 +30,17 @@ const RegionalObservations = () => {
     const [locationMap, setLocationMap] = useState(new Map());
     const [speciesMap, setSpeciesMap] = useState(new Map());
 
+    // TODO: fix this logic
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
         if (selectedState !== '') {
             fetchRegions(selectedState);
-        } else {
-            setSelectedRegion('');
             setRegions([]);
             sessionStorage.setItem('selectedRegion', '');
+            setViewType('date');
+        } else {
+            setSelectedRegion('');
         }
-        setObs([]);
     }, [selectedState]);
 
     useEffect(() => {
@@ -53,7 +66,6 @@ const RegionalObservations = () => {
             .then(data => setRegions(data));
     }
 
-    // TODO: make map of location ids / names and species codes / names to use as dictionaries
     const fetchObs = () => {
         fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent?back=30`, requestOptions)
             .then(res => res.json())
@@ -91,28 +103,11 @@ const RegionalObservations = () => {
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </header>
-            <nav>
-                <div className="obs-desc-container">
-                    {obs?.length > 0 && <p className="obs-desc">Most recent sightings by location ({formatDate(obs[obs.length - 1]?.obsDt)} – {formatDate(obs[0]?.obsDt)})</p>}
-                </div>
-                <div className="flex icon-button-container">
-                    <p className="langar-regular icon-button-label">View by:</p>
-                    <button aria-label="View by date" className={viewType === 'date' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('date')}>
-                        <span className="material-symbols-outlined icon">
-                            calendar_month
-                        </span></button>
-                    <button aria-label="View by bird name" className={viewType === 'bird' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('bird')}>
-                        <span className="material-symbols-outlined icon">
-                            match_case
-                        </span>
-                    </button>
-                    <button aria-label="View by location" className={viewType === 'location' ? 'selected icon-btn' : 'icon-btn'} onClick={() => setViewType('location')}>
-                        <span className="material-symbols-outlined icon">
-                            distance
-                        </span>
-                    </button>
-                </div>
-            </nav>
+
+            {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
+            {states?.length > 0 && regions?.length > 0 && obs?.length === 0 && <RegionPicker regions={regions} setSelectedRegion={setSelectedRegion} />}
+
+            {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />}
             {viewType === 'date' && <ObservationsByDate birds={obs} />}
             {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
             {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
