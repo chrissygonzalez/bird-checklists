@@ -9,22 +9,30 @@ import ObservationsByLocation from "./ObservationsByLocation";
 import ViewNav from "./ViewNav";
 
 const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setSelectedState: React.Dispatch<React.SetStateAction<string>> }) => {
-    return (<div>
-        {states?.map((state: EbirdRegion) => <button key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>)}
-    </div>)
+    return (
+        <>
+            <h2>Choose a state</h2>
+            <div className="picker-container">
+                {states?.map((state: EbirdRegion) => <button className="picker" key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>)}
+            </div>
+        </>)
 }
 
-const RegionPicker = ({ regions, setSelectedRegion }: { regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
-    return (<div>
-        {regions?.map((region: EbirdRegion) => <button key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)}
-    </div>)
+const RegionPicker = ({ stateName, regions, setSelectedRegion }: { stateName: string, regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
+    return (
+        <>
+            <h2>Choose a region in {stateName}</h2>
+            <div className="picker-container">
+                {regions?.map((region: EbirdRegion) => <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)}
+            </div>
+        </>)
 }
 
 const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
     const [selectedRegion, setSelectedRegion] = useState(localStorage.getItem('selectedRegion') || '');
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
-    const [regions, setRegions] = useState([]);
+    const [regions, setRegions] = useState<EbirdRegion[]>([]);
     const [obs, setObs] = useState<Observation[]>([]);
     const [viewType, setViewType] = useState('date');
     const [locationMap, setLocationMap] = useState(new Map());
@@ -34,21 +42,26 @@ const RegionalObservations = () => {
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
         if (selectedState !== '') {
-            fetchRegions(selectedState);
             setRegions([]);
+            setObs([]);
+            fetchRegions(selectedState);
             sessionStorage.setItem('selectedRegion', '');
             setViewType('date');
         } else {
+            setRegions([]);
+            setObs([]);
+            setSelectedState('');
             setSelectedRegion('');
         }
     }, [selectedState]);
 
     useEffect(() => {
         localStorage.setItem('selectedRegion', selectedRegion);
-        if (selectedRegion) {
+        if (regions.map(r => r.code).includes(selectedRegion)) {
             fetchObs();
         } else {
             setObs([]);
+            setSelectedRegion('');
         }
     }, [selectedRegion]);
 
@@ -104,8 +117,10 @@ const RegionalObservations = () => {
                 <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
             </header>
 
-            {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
-            {states?.length > 0 && regions?.length > 0 && obs?.length === 0 && <RegionPicker regions={regions} setSelectedRegion={setSelectedRegion} />}
+            {obs?.length === 0 && <div className="picker-view">
+                {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
+                {regions?.length > 0 && obs?.length === 0 && <RegionPicker stateName={selectedState} regions={regions} setSelectedRegion={setSelectedRegion} />}
+            </div>}
 
             {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />}
             {viewType === 'date' && <ObservationsByDate birds={obs} />}

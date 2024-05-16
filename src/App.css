@@ -27,7 +27,6 @@ nav {
 }
 
 button {
-  height: 100%;
   border-radius: 0%;
   border: none;
   background-color: #fff;
@@ -73,6 +72,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   fill: #000;
 }
 
+/** OBS DESC **/
 .obs-desc-container {
   display: flex;
   align-items: center;
@@ -84,6 +84,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-style: italic;
 }
 
+/** TEXT **/
 .langar-regular {
   font-family: "Langar", system-ui;
   font-weight: 400;
@@ -95,6 +96,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0.5rem 4rem 0 2rem;
 }
 
+/** ICON BUTTONS **/
 .icon-button-container {
   margin: 2px 0;
 }
@@ -110,6 +112,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .icon-btn {
   margin: 4px 0 4px 2px;
   transition: background-color 0.25s;
+  height: 100%;
 }
 
 .icon-btn:hover {
@@ -117,6 +120,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #C2DFAC
 }
 
+/** CONTAINERS? LAYOUT? **/
 .obs-container {
   display: flex;
   flex-direction: row;
@@ -143,6 +147,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 0.8rem;
 }
 
+/** NAME VIEW **/
 .bird {
   margin: 1rem 0;
 }
@@ -187,6 +192,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   max-height: calc(100vh - 112px);
 }
 
+/** DATE VIEW **/
 .date-container {
   display: flex;
   font-size: 1.3rem;
@@ -265,6 +271,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   overflow-y: scroll;
 }
 
+/** SELECTED WHAT? **/
 .selected {
   background-color: #C2DFAC;
 }
@@ -283,6 +290,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   overflow-y: scroll;
 }
 
+/** LOCATION VIEW **/
 .location-container {
   display: flex;
   justify-content: space-between;
@@ -326,4 +334,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .location-marker-name {
   margin-left: 0;
+}
+
+/** PICKER VIEW **/
+.picker-view {
+  margin: 3rem auto;
+  width: 80%;
+  text-align: center;
+}
+
+.picker-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.picker {
+  margin: 0.5rem;
+  padding: 1rem;
+  border-radius: 5px;
+  border-bottom: 2px solid #333;
+  transition: 0.15s;
+  font-family: "Merriweather", serif;
+  flex-grow: 0;
+}
+
+.picker:hover {
+  box-shadow: 0px 2px 2px 1px rgb(0 0 0 / 20%);
 }
