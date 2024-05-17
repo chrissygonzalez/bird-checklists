@@ -41,13 +41,12 @@ const RegionalObservations = () => {
 
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
-        localStorage.setItem('selectedStateName', selectedStateName);
         if (selectedState !== '') {
             setRegions([]);
             setObs([]);
             fetchRegions(selectedState);
-            sessionStorage.setItem('selectedRegion', '');
             setSelectedStateName(states?.find((state: EbirdRegion) => state.code === selectedState).name || '');
+            localStorage.setItem('selectedStateName', selectedStateName);
             setViewType('date');
         } else {
             setRegions([]);
@@ -61,13 +60,11 @@ const RegionalObservations = () => {
 
     useEffect(() => {
         localStorage.setItem('selectedRegion', selectedRegion);
-        if (regions.map(r => r.code).includes(selectedRegion)) {
+        setObs([]);
+        if (selectedRegion !== '') {
             fetchObs();
-        } else {
-            setObs([]);
-            setSelectedRegion('');
-            setViewType('date');
         }
+        setViewType('date');
     }, [selectedRegion]);
 
     let myHeaders = new Headers();
