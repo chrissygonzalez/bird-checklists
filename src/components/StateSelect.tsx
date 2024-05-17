@@ -7,12 +7,15 @@ type StateSelect = {
 }
 
 const StateSelect = ({ states, selectedState, setSelectedState }: StateSelect) => {
-    return (<select id="ebirdStates" value={selectedState} onChange={(e) => {
-        setSelectedState(e.target.value);
-    }}>
-        <option value={''}>Choose a state</option>
-        {states?.map((st: EbirdRegion) => <option key={st.code} value={st.code}>{st.name}</option>)}
-    </select>)
+    return (
+        <select id="ebirdStates" value={selectedState} onChange={(e) => {
+            const stateCode = e.target.value;
+            setSelectedState(stateCode);
+        }}>
+            <option value={''}>Choose a state</option>
+            {states?.map((st: EbirdRegion) => <option key={st.code} value={st.code}>{st.name}</option>)}
+        </select>
+    )
 }
 
 export default StateSelect;

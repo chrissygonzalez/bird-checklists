@@ -1,3 +1,4 @@
+import { SetStateAction } from "react";
 import { formatDate } from "../helpers";
 
 type ChecklistObservation = {
@@ -12,9 +13,16 @@ type Checklist = {
     obs: ChecklistObservation[];
 }
 
-const BirdChecklist = ({ list, speciesMap, locationMap }: { list: Checklist, speciesMap: Map<string, string>, locationMap: Map<string, string> }) => {
+type BirdChecklist = {
+    list: Checklist;
+    speciesMap: Map<string, string>;
+    locationMap: Map<string, string>;
+    setChecklist: React.Dispatch<SetStateAction<undefined>>;
+}
+
+const BirdChecklist = ({ list, speciesMap, locationMap, setChecklist }: BirdChecklist) => {
     return (
-        <div className="checklist">
+        <div className="checklist" onClick={() => setChecklist(undefined)}>
             <p>{formatDate(list.obsDt)}</p>
             <p>{list.userDisplayName}</p>
             <p>Location ID: {locationMap.get(list.locId)}</p>

@@ -48,7 +48,7 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
     const keys = Array.from(obsMap.keys());
     return (
         <>
-            {checklist && <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} />}
+            {checklist && <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} />}
             <div className="bird-container">
                 {keys.map(key => {
                     return (

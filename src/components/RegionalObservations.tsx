@@ -18,10 +18,10 @@ const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setS
         </>)
 }
 
-const RegionPicker = ({ stateName, regions, setSelectedRegion }: { stateName: string, regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
+const RegionPicker = ({ selectedState, regions, setSelectedRegion }: { selectedState: string, regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
     return (
         <>
-            <h2>Choose a region in {stateName}</h2>
+            <h2>Choose a region in {selectedState}</h2>
             <div className="picker-container">
                 {regions?.map((region: EbirdRegion) => <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)}
             </div>
@@ -30,6 +30,7 @@ const RegionPicker = ({ stateName, regions, setSelectedRegion }: { stateName: st
 
 const RegionalObservations = () => {
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
+    const [selectedStateName, setSelectedStateName] = useState(localStorage.getItem('selectedStateName') || '');
     const [selectedRegion, setSelectedRegion] = useState(localStorage.getItem('selectedRegion') || '');
     const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState<EbirdRegion[]>([]);
@@ -38,20 +39,23 @@ const RegionalObservations = () => {
     const [locationMap, setLocationMap] = useState(new Map());
     const [speciesMap, setSpeciesMap] = useState(new Map());
 
-    // TODO: fix this logic
     useEffect(() => {
         localStorage.setItem('selectedState', selectedState);
+        localStorage.setItem('selectedStateName', selectedStateName);
         if (selectedState !== '') {
             setRegions([]);
             setObs([]);
             fetchRegions(selectedState);
             sessionStorage.setItem('selectedRegion', '');
+            setSelectedStateName(states?.find((state: EbirdRegion) => state.code === selectedState).name || '');
             setViewType('date');
         } else {
             setRegions([]);
             setObs([]);
             setSelectedState('');
+            setSelectedStateName('');
             setSelectedRegion('');
+            setViewType('date');
         }
     }, [selectedState]);
 
@@ -62,6 +66,7 @@ const RegionalObservations = () => {
         } else {
             setObs([]);
             setSelectedRegion('');
+            setViewType('date');
         }
     }, [selectedRegion]);
 
@@ -110,7 +115,7 @@ const RegionalObservations = () => {
     }
 
     return (
-        <div>
+        <div className="content">
             <header>
                 <h1 className='langar-regular header-text' onClick={() => setViewType('date')}>Birds in Your Neighborhood</h1>
                 <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
@@ -119,7 +124,7 @@ const RegionalObservations = () => {
 
             {obs?.length === 0 && <div className="picker-view">
                 {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
-                {regions?.length > 0 && obs?.length === 0 && <RegionPicker stateName={selectedState} regions={regions} setSelectedRegion={setSelectedRegion} />}
+                {regions?.length > 0 && obs?.length === 0 && <RegionPicker selectedState={selectedStateName} regions={regions} setSelectedRegion={setSelectedRegion} />}
             </div>}
 
             {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />}
