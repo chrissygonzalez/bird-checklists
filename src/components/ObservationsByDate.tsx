@@ -44,6 +44,7 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
             <div className="dates">
                 {days.map(day => {
                     const dayData = obsMap.get(day) || [];
+                    const numLocations = [...dayData.keys()].length;
                     let totalSpecies = 0;
                     for (let entry of dayData) {
                         totalSpecies += entry[1].length;
@@ -51,7 +52,7 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
                     return (
                         <div key={day} className={`date-nav ${day === currentDay ? 'date-selected' : ''}`} onClick={() => setCurrentDay(day)}>
                             <h3 className="date-nav-heading">{formatDateNav(day)}</h3>
-                            {/* <p>{[...dayData.keys()].length} locations • {totalSpecies} species</p> */}
+                            <p className="date-nav-stats">{numLocations} location{numLocations > 1 ? 's' : ''} • {totalSpecies} species</p>
                         </div>
                     )
                 })}

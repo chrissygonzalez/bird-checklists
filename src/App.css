@@ -216,6 +216,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-bottom: 2px solid #fff;
 }
 
+.date-nav-stats {
+  font-size: 0.8rem;
+  font-family: "Merriweather", serif;
+  color: #666;
+}
+
 .date-nav:hover {
   cursor: pointer;
   background-color: #fff;
