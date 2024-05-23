@@ -39,28 +39,30 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
     }, [birds]);
 
     return (
-        <div className='location-container'>
-            <div className="location-name-container">
-                {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v], index) => {
-                    return (
-                        <div className='location-name-item' key={k}>
-                            <div className="location-number">{index + 1}</div>
-                            <p className="location-name" onClick={() => handleMarkerClick(k)}>
-                                {v.name}
-                            </p>
-                        </div>)
-                })}
-            </div>
-            <GMap
-                mapId='birdLocations'
-                style={{ width: '70vw', height: '90vh' }}
-                defaultZoom={8}
-                defaultCenter={{ lat: 43.64, lng: -79.41 }}
-                gestureHandling={'greedy'}
-                disableDefaultUI={true}>
-                {Array.from(markers).map(([k, v]) => <MapMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
-            </GMap>
-        </div>)
+        <>
+            <h2 className="page-title">Recent observation locations</h2>
+            <div className='location-container container'>
+                <div className="location-name-container">
+                    {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v], index) => {
+                        return (
+                            <div className='location-name-item' key={k}>
+                                <div className="location-number">{index + 1}</div>
+                                <p className="location-name" onClick={() => handleMarkerClick(k)}>
+                                    {v.name}
+                                </p>
+                            </div>)
+                    })}
+                </div>
+                <GMap
+                    mapId='birdLocations'
+                    style={{ width: '70vw', height: '90vh' }}
+                    defaultZoom={8}
+                    defaultCenter={{ lat: 43.64, lng: -79.41 }}
+                    gestureHandling={'greedy'}
+                    disableDefaultUI={true}>
+                    {Array.from(markers).map(([k, v]) => <MapMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
+                </GMap>
+            </div></>)
 }
 
 export default ObservationsByLocation;

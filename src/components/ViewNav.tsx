@@ -11,7 +11,7 @@ const ViewNav = ({ viewType, setViewType, startDate, endDate }: ViewNav) => {
     return (
         <nav>
             <div className="obs-desc-container">
-                <p className="obs-desc">Most recent sightings by location ({formatDate(startDate)} – {formatDate(endDate)})</p>
+                {/* <p className="obs-desc">Most recent sightings by location ({formatDate(startDate)} – {formatDate(endDate)})</p> */}
             </div>
             <div className="flex icon-button-container">
                 <p className="langar-regular icon-button-label">View by:</p>

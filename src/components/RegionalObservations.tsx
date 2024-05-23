@@ -114,9 +114,12 @@ const RegionalObservations = () => {
     return (
         <div className="content">
             <header>
-                <h1 className='langar-regular header-text' onClick={() => setViewType('date')}>Birds in Your Neighborhood</h1>
-                <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
-                <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
+                <div className="header-flex">
+                    <h1 className='langar-regular header-text' onClick={() => setViewType('date')}>Birds in the Neighborhood</h1>
+                    <StateSelect states={states} selectedState={selectedState} setSelectedState={setSelectedState} />
+                    <RegionSelect regions={regions} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
+                </div>
+                {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />}
             </header>
 
             {obs?.length === 0 && <div className="picker-view">
@@ -124,8 +127,8 @@ const RegionalObservations = () => {
                 {regions?.length > 0 && obs?.length === 0 && <RegionPicker selectedState={selectedStateName} regions={regions} setSelectedRegion={setSelectedRegion} />}
             </div>}
 
-            {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />}
-            {viewType === 'date' && <ObservationsByDate birds={obs} />}
+            {/* {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />} */}
+            {obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
             {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
             {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
         </div>

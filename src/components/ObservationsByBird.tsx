@@ -49,7 +49,8 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
     return (
         <>
             {checklist && <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} />}
-            <div className="bird-container">
+            <h2 className="page-title">Recent bird species</h2>
+            <div className="bird-container container">
                 {keys.map(key => {
                     return (
                         <div key={key} className="bird-letter">

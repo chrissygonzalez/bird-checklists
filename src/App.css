@@ -6,11 +6,19 @@
 
 header {
   height: 62px;
-  background-color: #fff;
+  /* background-color: #fff; */
   width: 100%;
   display: flex;
   align-items: center;
   position: sticky;
+  justify-content: space-between;
+  border-bottom: 2px solid #fff;
+  background-color: #83957b;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
 }
 
 h1:hover {
@@ -21,7 +29,6 @@ h1:hover {
 
 nav {
   height: 55px;
-  border-bottom: 2px solid #fff;
   display: flex;
   justify-content: space-between;
 }
@@ -51,12 +58,12 @@ input {
   font-family: "Merriweather", serif;
   font-weight: 300;
   font-style: normal;
-  background-color: #E6F0DE;
-  color: #4C403D;
+  background-color: #83957b;
+  color: #fff;
   padding: 0.5rem;
   margin: 0.5rem;
   border: none;
-  border-bottom: 1px solid #4C403D;
+  border-bottom: 1px solid #fff;
   border-radius: 0;
   width: 175px;
   box-sizing: border-box;
@@ -65,6 +72,10 @@ input {
 select:focus {
   outline: 1px solid #000;
   border-radius: 0;
+}
+
+select:hover {
+  outline: 1px solid #000;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -89,11 +100,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-family: "Langar", system-ui;
   font-weight: 400;
   font-style: normal;
+  color: #fff;
 }
 
 .header-text {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   margin: 0.5rem 4rem 0 2rem;
+}
+
+.page-title {
+  margin-left: 2rem;
+  font-weight: 300;
+  font-size: 2.5rem;
+  text-align: center;
 }
 
 /** ICON BUTTONS **/
@@ -149,6 +168,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .location {
   font-size: 0.8rem;
+}
+
+.container {
+  border-top: 2px solid #fff;
 }
 
 /** NAME VIEW **/
