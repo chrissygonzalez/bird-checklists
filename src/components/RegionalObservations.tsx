@@ -7,11 +7,13 @@ import ObservationsByDate from "./ObservationsByDate";
 import ObservationsByBird from "./ObservationsByBird";
 import ObservationsByLocation from "./ObservationsByLocation";
 import ViewNav from "./ViewNav";
+import { getLocationMap, getSpeciesMap } from "../helpers";
 
 const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setSelectedState: React.Dispatch<React.SetStateAction<string>> }) => {
     return (
         <>
-            <h2>Choose a state</h2>
+            <h2 className="picker-page-title">Explore recent bird observations</h2>
+            <h3 className="picker-title">Choose a state to get started:</h3>
             <div className="picker-container">
                 {states?.map((state: EbirdRegion) => <button className="picker" key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>)}
             </div>
@@ -21,7 +23,8 @@ const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setS
 const RegionPicker = ({ selectedState, regions, setSelectedRegion }: { selectedState: string, regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
     return (
         <>
-            <h2>Choose a region in {selectedState}</h2>
+            <h2 className="picker-page-title">Explore recent bird observations</h2>
+            <h3 className="picker-title">Choose a region in {selectedState}:</h3>
             <div className="picker-container">
                 {regions?.map((region: EbirdRegion) => <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)}
             </div>
@@ -29,10 +32,11 @@ const RegionPicker = ({ selectedState, regions, setSelectedRegion }: { selectedS
 }
 
 const RegionalObservations = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
     const [selectedStateName, setSelectedStateName] = useState(localStorage.getItem('selectedStateName') || '');
     const [selectedRegion, setSelectedRegion] = useState(localStorage.getItem('selectedRegion') || '');
-    const { data: states, isLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
+    const { data: states } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState<EbirdRegion[]>([]);
     const [obs, setObs] = useState<Observation[]>([]);
     const [viewType, setViewType] = useState('date');
@@ -76,43 +80,30 @@ const RegionalObservations = () => {
     };
 
     const fetchRegions = (region: string) => {
+        setIsLoading(true);
         fetch(`https://api.ebird.org/v2/ref/region/list/subnational2/${region}`, requestOptions)
             .then(res => res.json())
-            .then(data => setRegions(data));
-    }
-
-    const fetchObs = () => {
-        fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent?back=30`, requestOptions)
-            .then(res => res.json())
             .then(data => {
-                setObs(data);
-                makeLocationMap(data);
-                makeSpeciesMap(data);
+                setRegions(data);
+                setIsLoading(false);
             });
     }
 
-    const makeLocationMap = (data: Observation[]) => {
-        const lMap = new Map();
-        for (const location of data) {
-            if (!lMap.has(location.locId)) {
-                lMap.set(location.locId, location.locName);
-            }
-        }
-        setLocationMap(lMap);
-    }
-
-    const makeSpeciesMap = (data: Observation[]) => {
-        const sMap = new Map();
-        for (const species of data) {
-            if (!sMap.has(species.speciesCode)) {
-                sMap.set(species.speciesCode, species.comName);
-            }
-        }
-        setSpeciesMap(sMap);
+    const fetchObs = () => {
+        setIsLoading(true);
+        fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent?back=30`, requestOptions)
+            .then(res => res.json())
+            .then((data: Observation[]) => {
+                setObs(data);
+                setLocationMap(getLocationMap(data));
+                setSpeciesMap(getSpeciesMap(data));
+                setIsLoading(false);
+            });
     }
 
     return (
         <div className="content">
+            {isLoading && <div className="container"><h1 className="loading">Is Loading!!!</h1></div>}
             <header>
                 <div className="header-flex">
                     <h1 className='langar-regular header-text' onClick={() => setViewType('date')}>Birds in the Neighborhood</h1>
@@ -122,12 +113,11 @@ const RegionalObservations = () => {
                 {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />}
             </header>
 
-            {obs?.length === 0 && <div className="picker-view">
+            {obs?.length === 0 && !isLoading && <div className="picker-view">
                 {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
                 {regions?.length > 0 && obs?.length === 0 && <RegionPicker selectedState={selectedStateName} regions={regions} setSelectedRegion={setSelectedRegion} />}
             </div>}
 
-            {/* {obs?.length > 0 && <ViewNav viewType={viewType} setViewType={setViewType} startDate={obs[obs.length - 1].obsDt} endDate={obs[0].obsDt} />} */}
             {obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
             {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
             {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}

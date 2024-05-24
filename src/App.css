@@ -6,14 +6,14 @@
 
 header {
   height: 62px;
-  /* background-color: #fff; */
   width: 100%;
   display: flex;
   align-items: center;
-  position: sticky;
+  position: fixed;
+  top: 0;
   justify-content: space-between;
   border-bottom: 2px solid #fff;
-  background-color: #83957b;
+  background-color: var(--header-bg);
 }
 
 .header-flex {
@@ -24,7 +24,7 @@ header {
 h1:hover {
   cursor: pointer;
   transition: all 0.2s;
-  color: #2885F3
+  color: var(--light-link);
 }
 
 nav {
@@ -36,8 +36,8 @@ nav {
 button {
   border-radius: 0%;
   border: none;
-  background-color: #fff;
-  color: #4C403D;
+  background-color: var(--light);
+  color: var(--dark);
 }
 
 ul {
@@ -58,29 +58,24 @@ input {
   font-family: "Merriweather", serif;
   font-weight: 300;
   font-style: normal;
-  background-color: #83957b;
-  color: #fff;
+  background-color: var(--header-bg);
+  color: var(--light);
   padding: 0.5rem;
   margin: 0.5rem;
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--light);
   border-radius: 0;
   width: 175px;
   box-sizing: border-box;
 }
 
 select:focus {
-  outline: 1px solid #000;
+  outline: 1px solid var(--focus);
   border-radius: 0;
 }
 
 select:hover {
-  outline: 1px solid #000;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  background-color: #000;
-  fill: #000;
+  outline: 1px solid var(--focus);
 }
 
 /** OBS DESC **/
@@ -100,7 +95,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-family: "Langar", system-ui;
   font-weight: 400;
   font-style: normal;
-  color: #fff;
+  color: var(--light);
 }
 
 .header-text {
@@ -117,7 +112,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /** ICON BUTTONS **/
 .icon-button-container {
-  margin: 2px 0;
+  margin: 2px 4px 2px 0;
 }
 
 .icon-button-label {
@@ -129,19 +124,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .icon-btn {
-  margin: 4px 0 4px 2px;
+  margin: 4px 0 4px 4px;
   transition: background-color 0.25s;
   height: 100%;
 }
 
 .icon-btn:hover {
   cursor: pointer;
-  background-color: #C2DFAC
+  background-color: var(--btn-select-bg);
 }
 
 /** CONTAINERS? LAYOUT? **/
 .content {
   height: 100%;
+  position: relative;
+  top: 62px;
+  transition: 1s;
 }
 
 .obs-container {
@@ -153,7 +151,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .observation {
   display: flex;
   flex-direction: column;
-  color: #000;
+  color: var(--dark);
   text-align: left;
   margin: 1rem;
   padding: 1rem;
@@ -171,7 +169,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .container {
-  border-top: 2px solid #fff;
+  border-top: 2px solid var(--light);
+}
+
+.loading {
+  height: 100vh;
+  transition: 1s;
 }
 
 /** NAME VIEW **/
@@ -200,8 +203,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-weight: 400;
   font-style: normal;
   font-size: 1.8rem;
-  color: #2885F3;
-  border-top: 3px solid #2885F3;
+  color: var(--accent);
+  border-top: 3px solid var(--accent);
   margin-left: 1rem;
   margin-bottom: 0;
   padding-top: 0.5rem;
@@ -224,34 +227,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   font-size: 1.3rem;
   flex-direction: row;
-  max-height: 90vh;
+  max-height: 80vh;
 }
 
 .dates {
   overflow-y: scroll;
-  border-right: 2px solid #fff;
+  border-right: 2px solid var(--light);
 }
 
 .date-nav {
   transition: 0.2s;
   min-width: 200px;
   padding: 1rem;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid var(--light);
 }
 
 .date-nav-stats {
   font-size: 0.8rem;
   font-family: "Merriweather", serif;
-  color: #666;
+  color: var(--medium);
 }
 
 .date-nav:hover {
   cursor: pointer;
-  background-color: #fff;
+  background-color: var(--light);
 }
 
 .date-selected {
-  background-color: #fff;
+  background-color: var(--light);
 }
 
 .date-heading {
@@ -272,7 +275,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-left: 1rem;
   margin-top: 0;
   margin-bottom: 0;
-  color: #2885F3;
+  color: var(--accent);
 }
 
 .date-locations {
@@ -289,7 +292,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .date-seen {
   font-family: "Cormorant Garamond", serif;
   font-weight: 400;
-  color: #2885F3;
+  color: var(--accent);
   font-size: 1.25rem;
 }
 
@@ -305,16 +308,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /** SELECTED WHAT? **/
 .selected {
-  background-color: #C2DFAC;
+  background-color: var(--btn-select-bg);
 }
 
 .selected:focus {
-  outline: 1px solid #000;
+  outline: 1px solid var(--dark);
   border-radius: 0;
 }
 
 .checklist {
-  background-color: #fff;
+  background-color: var(--light);
   height: 100%;
   width: 400px;
   position: absolute;
@@ -326,13 +329,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .location-container {
   display: flex;
   justify-content: space-between;
-  height: 90vh;
+  height: 80vh;
 }
 
 .location-name-container {
   overflow-y: scroll;
   margin-left: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
 }
 
 .location-name-item {
@@ -350,13 +354,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .location-number {
-  background-color: #fff;
+  background-color: var(--light);
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;
   display: inline-block;
   font-family: "Langar", system-ui;
-  color: #2885F3;
+  color: var(--accent);
   font-size: 1rem;
   align-self: flex-start;
   text-align: center;
@@ -370,7 +374,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /** PICKER VIEW **/
 .picker-view {
-  margin: 3rem auto;
+  margin: 2rem auto 3rem auto;
   width: 80%;
   text-align: center;
 }
@@ -379,13 +383,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  transition: 0.5s;
 }
 
 .picker {
   margin: 0.5rem;
   padding: 1rem;
   border-radius: 5px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid var(--medium);
   transition: 0.15s;
   font-family: "Merriweather", serif;
   flex-grow: 0;
@@ -394,4 +399,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .picker:hover {
   box-shadow: 0px 2px 2px 1px rgb(0 0 0 / 20%);
   cursor: pointer;
+}
+
+.picker-page-title {
+  margin-left: 2rem;
+  font-weight: 300;
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+
+.picker-title {
+  margin: 0 0 2rem 0;
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-style: italic;
 }
