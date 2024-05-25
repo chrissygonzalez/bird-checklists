@@ -25,6 +25,7 @@ const useFetch = (url: string): FetchReturn => {
             .then(response => {
                 if (!response.ok) {
                     // error coming back from server
+                    // setError('problem');
                     throw Error('could not fetch the data for that resource');
                 }
                 return response.json();
