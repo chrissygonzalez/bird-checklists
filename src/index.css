@@ -14,6 +14,8 @@
   --light: #fff;
   --dark: #000;
   --medium: #666;
+  --error-bg: rgb(253, 223, 223);
+  --error: rgb(224, 119, 125);
 }
 
 a {
