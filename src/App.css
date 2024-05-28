@@ -96,6 +96,8 @@ select:hover {
   font-weight: 400;
   font-style: normal;
   color: var(--light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .header-text {
@@ -266,6 +268,8 @@ select:hover {
   margin-top: 0;
   margin-bottom: 10px;
   column-span: all;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .date-nav-heading {
@@ -309,10 +313,11 @@ select:hover {
 /** SELECTED WHAT? **/
 .selected {
   background-color: var(--btn-select-bg);
+  outline: 1px solid var(--light);
 }
 
 .selected:focus {
-  outline: 1px solid var(--dark);
+  outline: 1px solid var(--light);
   border-radius: 0;
 }
 

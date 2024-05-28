@@ -1,15 +1,26 @@
 import { Map as GMap } from '@vis.gl/react-google-maps';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { BirdContext, BirdContextType } from "./BirdContext";
 import { Observation, Location } from "../types";
 import MapMarker from './MapMarker';
 
 const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], locationMap: Map<string, string> }) => {
+    const { selectedLocation, setSelectedLocation } = useContext(BirdContext) as BirdContextType;
     const [markers, setMarkers] = useState<Map<string, Location>>(new Map());
     const [mapBounds, setMapBounds] = useState<google.maps.LatLngBounds>(new window.google.maps.LatLngBounds());
     const bounds = new window.google.maps.LatLngBounds();
     const [openWindows, setOpenWindows] = useState<Set<string>>(new Set());
 
+    useEffect(() => {
+        if (selectedLocation) {
+            const open = new Set(openWindows);
+            open.add(selectedLocation);
+            setOpenWindows(open);
+        }
+    }, [markers, mapBounds]);
+
     const handleMarkerClick = (id: string) => {
+        setSelectedLocation('');
         const open = new Set(openWindows);
         if (open.has(id)) {
             open.clear();
@@ -55,7 +66,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
                 </div>
                 <GMap
                     mapId='birdLocations'
-                    style={{ width: '70vw', height: '90vh' }}
+                    style={{ width: '70vw', height: '80vh' }}
                     defaultZoom={8}
                     defaultCenter={{ lat: 43.64, lng: -79.41 }}
                     gestureHandling={'greedy'}

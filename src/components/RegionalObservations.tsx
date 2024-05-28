@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import useFetch from "../hooks/useFetch";
 import { EbirdRegion, Observation } from '../types';
@@ -9,6 +9,7 @@ import ObservationsByBird from "./ObservationsByBird";
 import ObservationsByLocation from "./ObservationsByLocation";
 import ViewNav from "./ViewNav";
 import { getLocationMap, getSpeciesMap } from "../helpers";
+import { BirdContext, BirdContextType } from "./BirdContext";
 
 const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setSelectedState: React.Dispatch<React.SetStateAction<string>> }) => {
     return (
@@ -33,6 +34,7 @@ const RegionPicker = ({ selectedState, regions, setSelectedRegion }: { selectedS
 }
 
 const RegionalObservations = () => {
+    const { viewType, setViewType } = useContext(BirdContext) as BirdContextType;
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
@@ -42,7 +44,7 @@ const RegionalObservations = () => {
     const { data: states, isLoading: statesLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
     const [regions, setRegions] = useState<EbirdRegion[]>([]);
     const [obs, setObs] = useState<Observation[]>([]);
-    const [viewType, setViewType] = useState('date');
+    // const [viewType, setViewType] = useState('date');
     const [locationMap, setLocationMap] = useState(new Map());
     const [speciesMap, setSpeciesMap] = useState(new Map());
 
@@ -138,7 +140,6 @@ const RegionalObservations = () => {
                         {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
                         {regions?.length > 0 && obs?.length === 0 && <RegionPicker selectedState={selectedStateName} regions={regions} setSelectedRegion={setSelectedRegion} />}
                     </div>}
-
                         {!!obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
                         {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
                         {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
