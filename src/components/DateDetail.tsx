@@ -12,7 +12,7 @@ const BirdsAtLocation = ({ location, obs }: { location: string, obs: Observation
     }
     return (
         <div className="date-location">
-            {location && <p onClick={handleClick} className="date-seen">{location}</p>}
+            {location && <a onClick={handleClick} className="date-seen">{location}</a>}
             {obs?.sort((a, b) => a.comName < b.comName ? -1 : 1).map(ob => <p key={ob.subId + ob.speciesCode} className="date-obs">{ob.comName} • {ob.howMany}</p>)}
         </div>)
 }

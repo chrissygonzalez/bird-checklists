@@ -4,23 +4,6 @@
   box-sizing: border-box;
 }
 
-header {
-  height: 62px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  justify-content: space-between;
-  border-bottom: 2px solid #fff;
-  background-color: var(--header-bg);
-}
-
-.header-flex {
-  display: flex;
-  align-items: center;
-}
-
 h1:hover {
   cursor: pointer;
   transition: all 0.2s;
@@ -78,6 +61,39 @@ select:hover {
   outline: 1px solid var(--focus);
 }
 
+/** HEADER **/
+header {
+  height: 62px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  justify-content: space-between;
+  border-bottom: 2px solid #fff;
+  background-color: var(--header-bg);
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+}
+
+.header-text {
+  font-size: 1.2rem;
+  margin: 0 4rem 0 0.5rem;
+}
+
+.logo {
+  height: 65px;
+}
+
+.logo-header {
+  display: flex;
+  align-items: center;
+  margin-left: 0.75rem;
+}
+
 /** OBS DESC **/
 .obs-desc-container {
   display: flex;
@@ -98,11 +114,6 @@ select:hover {
   color: var(--light);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.header-text {
-  font-size: 1.2rem;
-  margin: 0.5rem 4rem 0 2rem;
 }
 
 .page-title {
@@ -298,6 +309,13 @@ select:hover {
   font-weight: 400;
   color: var(--accent);
   font-size: 1.25rem;
+  margin-left: 1rem;
+  display: block;
+}
+
+.date-seen:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .date-obs {

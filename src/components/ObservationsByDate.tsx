@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Observation } from "../types";
-import { formatDateNav } from "../helpers";
+import { formatDateNav, getBirdMap } from "../helpers";
 import DateDetail from "./DateDetail";
 
 const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
@@ -9,26 +9,7 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
     const [currentDay, setCurrentDay] = useState('');
 
     useEffect(() => {
-        const birdMap: Map<string, Map<string, Observation[]>> = new Map();
-        for (const ob of birds) {
-            const day = new Date(ob['obsDt']).toLocaleDateString();
-            const location = ob['locName'];
-
-            if (birdMap.has(day)) {
-                const birdDate = birdMap.get(String(day));
-
-                if (birdDate?.has(location)) {
-                    const birdDateLoc = birdDate.get(String(location));
-                    birdDateLoc?.push(ob);
-                } else {
-                    birdDate?.set(String(location), [ob]);
-                }
-            } else {
-                const birdDateLoc = new Map();
-                birdDateLoc.set(String(location), [ob]);
-                birdMap.set(String(day), birdDateLoc);
-            }
-        }
+        const birdMap = getBirdMap(birds);
         setObsMap(birdMap);
         birdMap.forEach((day, key) => {
             const sorted = new Map([...day.entries()].sort());

@@ -38,3 +38,27 @@ export const getLocationMap = (data: Observation[]): Map<any, any> => {
     }
     return lMap;
 }
+
+export const getBirdMap = (birds: Observation[]) => {
+    const birdMap: Map<string, Map<string, Observation[]>> = new Map();
+    for (const ob of birds) {
+        const day = new Date(ob['obsDt']).toLocaleDateString();
+        const location = ob['locName'];
+
+        if (birdMap.has(day)) {
+            const birdDate = birdMap.get(String(day));
+
+            if (birdDate?.has(location)) {
+                const birdDateLoc = birdDate.get(String(location));
+                birdDateLoc?.push(ob);
+            } else {
+                birdDate?.set(String(location), [ob]);
+            }
+        } else {
+            const birdDateLoc = new Map();
+            birdDateLoc.set(String(location), [ob]);
+            birdMap.set(String(day), birdDateLoc);
+        }
+    }
+    return birdMap;
+}

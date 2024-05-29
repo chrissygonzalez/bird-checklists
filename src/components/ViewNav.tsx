@@ -1,8 +1,6 @@
 type ViewNav = {
     viewType: string;
     setViewType: (date: string) => void;
-    startDate: string;
-    endDate: string;
 }
 
 const ViewNav = ({ viewType, setViewType }: ViewNav) => {
