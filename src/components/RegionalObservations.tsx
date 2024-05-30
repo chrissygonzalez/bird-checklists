@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import useFetch from "../hooks/useFetch";
 import { EbirdRegion, Observation } from '../types';
 import ObservationsByDate from "./ObservationsByDate";
 import ObservationsByBird from "./ObservationsByBird";
@@ -8,41 +7,25 @@ import ObservationsByLocation from "./ObservationsByLocation";
 import { getLocationMap, getSpeciesMap } from "../helpers";
 import { BirdContext, BirdContextType } from "./BirdContext";
 import MainHeader from "./MainHeader";
-
-const StatePicker = ({ states, setSelectedState }: { states: EbirdRegion[], setSelectedState: React.Dispatch<React.SetStateAction<string>> }) => {
-    return (
-        <>
-            <h2 className="picker-page-title">Explore recent bird observations in the United States</h2>
-            <h3 className="picker-title">Choose a state to get started:</h3>
-            <div className="picker-container">
-                {states?.map((state: EbirdRegion) => <button className="picker" key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>)}
-            </div>
-        </>)
-}
-
-const RegionPicker = ({ selectedState, regions, setSelectedRegion }: { selectedState: string, regions: EbirdRegion[], setSelectedRegion: React.Dispatch<React.SetStateAction<string>> }) => {
-    return (
-        <>
-            <h2 className="picker-page-title">Explore recent bird observations in the United States</h2>
-            <h3 className="picker-title">Choose a region in {selectedState}:</h3>
-            <div className="picker-container">
-                {regions?.map((region: EbirdRegion) => <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)}
-            </div>
-        </>)
-}
+import Picker from "./Picker";
 
 const RegionalObservations = () => {
-    const { viewType, setViewType } = useContext(BirdContext) as BirdContextType;
+    const {
+        states,
+        statesLoading,
+        error,
+        selectedState,
+        setSelectedState,
+        selectedStateName,
+        setSelectedStateName,
+        setRegions,
+        selectedRegion,
+        setSelectedRegion,
+        viewType,
+        setViewType } = useContext(BirdContext) as BirdContextType;
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [selectedState, setSelectedState] = useState(localStorage.getItem('selectedState') || '');
-    const [selectedStateName, setSelectedStateName] = useState(localStorage.getItem('selectedStateName') || '');
-    const [selectedRegion, setSelectedRegion] = useState(localStorage.getItem('selectedRegion') || '');
-    // const { data: states, isLoading: statesLoading, error } = useFetch("https://api.ebird.org/v2/ref/reg/list/subnational8/US");
-    const { data: states, isLoading: statesLoading, error } = useFetch("https://api.ebird.org/v2/ref/region/list/subnational1/US");
-    const [regions, setRegions] = useState<EbirdRegion[]>([]);
     const [obs, setObs] = useState<Observation[]>([]);
-    // const [viewType, setViewType] = useState('date');
     const [locationMap, setLocationMap] = useState(new Map());
     const [speciesMap, setSpeciesMap] = useState(new Map());
 
@@ -52,7 +35,7 @@ const RegionalObservations = () => {
             setRegions([]);
             setObs([]);
             fetchRegions(selectedState);
-            setSelectedStateName(states?.find((state: EbirdRegion) => state.code === selectedState).name || '');
+            setSelectedStateName(states?.find((state: EbirdRegion) => state.code === selectedState)?.name || '');
             localStorage.setItem('selectedStateName', selectedStateName);
             setViewType('date');
         } else {
@@ -106,7 +89,6 @@ const RegionalObservations = () => {
             .then((data) => {
                 if (data.errors) {
                     setIsLoading(false);
-                    console.log(data.errors);
                     setErrorMessage('could not fetch the data for that resource');
                     throw Error('could not fetch the data for that resource');
                 } else {
@@ -125,22 +107,12 @@ const RegionalObservations = () => {
                 <div className="error-container">
                     <div className="error">Sorry, we're having trouble connecting to EBird right now.<br></br>Please try again later.</div>
                 </div>}
-            <MainHeader
-                obs={obs}
-                states={states}
-                regions={regions}
-                selectedState={selectedState}
-                selectedRegion={selectedRegion}
-                setSelectedState={setSelectedState}
-                setSelectedRegion={setSelectedRegion} />
+            <MainHeader obs={obs} />
             <ErrorBoundary fallback={<div>{errorMessage}</div>}>
                 {(isLoading || statesLoading) ?
                     <div className="loader-container"><div className="loader"></div></div> :
                     <>
-                        {obs?.length === 0 && <div className="picker-view">
-                            {states?.length > 0 && regions?.length === 0 && <StatePicker states={states} setSelectedState={setSelectedState} />}
-                            {regions?.length > 0 && obs?.length === 0 && <RegionPicker selectedState={selectedStateName} regions={regions} setSelectedRegion={setSelectedRegion} />}
-                        </div>}
+                        {obs?.length === 0 && <Picker />}
                         {!!obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
                         {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
                         {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}

@@ -6,16 +6,16 @@ type FetchReturn = {
     error: string | null;
 }
 
+let myHeaders = new Headers();
+myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
+
+const requestOptions: RequestInit = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+};
+
 const useFetch = (url: string): FetchReturn => {
-    let myHeaders = new Headers();
-    myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
-
-    const requestOptions: RequestInit = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);

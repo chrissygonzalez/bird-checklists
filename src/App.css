@@ -4,11 +4,11 @@
   box-sizing: border-box;
 }
 
-h1:hover {
+/* h1:hover {
   cursor: pointer;
   transition: all 0.2s;
   color: var(--light-link);
-}
+} */
 
 nav {
   height: 55px;
@@ -81,17 +81,26 @@ header {
 
 .header-text {
   font-size: 1.2rem;
-  margin: 0 4rem 0 0.5rem;
+  margin: 0 4rem 0 0.125rem;
 }
 
 .logo {
   height: 65px;
+  fill: #fff
 }
 
 .logo-header {
   display: flex;
   align-items: center;
   margin-left: 0.75rem;
+}
+
+.logo-header:hover h1,
+.logo-header:hover .logo {
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--light-link);
+  fill: var(--light-link);
 }
 
 /** OBS DESC **/
