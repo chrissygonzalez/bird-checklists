@@ -10,7 +10,7 @@ const MapMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Locatio
         handleClick(id);
     }
 
-    useEffect(() => { map?.fitBounds(bounds, 0); }, [])
+    useEffect(() => { map?.fitBounds(bounds, 0); }, [bounds, map])
 
     return (
         <div>

@@ -46,7 +46,7 @@ const RegionalObservations = () => {
             setSelectedRegion('');
             setViewType('date');
         }
-    }, [selectedState]);
+    }, [selectedState, selectedStateName, setRegions]);
 
     useEffect(() => {
         localStorage.setItem('selectedRegion', selectedRegion);
@@ -57,7 +57,7 @@ const RegionalObservations = () => {
         setViewType('date');
     }, [selectedRegion]);
 
-    let myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
     const requestOptions: RequestInit = {
         method: 'GET',

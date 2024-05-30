@@ -13,7 +13,7 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
     const [obsMap, setObsMap] = useState<Map<string, Observation[]>>(new Map());
     const [checklist, setChecklist] = useState(undefined);
 
-    let myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
     const requestOptions: RequestInit = {
         method: 'GET',
@@ -43,7 +43,7 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
         }
         const sorted = new Map([...birdMap.entries()].sort())
         setObsMap(sorted);
-    }, []);
+    }, [birds]);
 
     const keys = Array.from(obsMap.keys());
     return (

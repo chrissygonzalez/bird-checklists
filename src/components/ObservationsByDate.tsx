@@ -29,7 +29,7 @@ const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
                         const dayData = obsMap.get(day) || [];
                         const numLocations = [...dayData.keys()].length;
                         let totalSpecies = 0;
-                        for (let entry of dayData) {
+                        for (const entry of dayData) {
                             totalSpecies += entry[1].length;
                         }
                         return (

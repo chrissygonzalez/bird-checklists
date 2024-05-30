@@ -6,7 +6,7 @@ type FetchReturn = {
     error: string | null;
 }
 
-let myHeaders = new Headers();
+const myHeaders = new Headers();
 myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
 
 const requestOptions: RequestInit = {

@@ -17,7 +17,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
             open.add(selectedLocation);
             setOpenWindows(open);
         }
-    }, [markers, mapBounds]);
+    }, [markers, mapBounds, openWindows, selectedLocation]);
 
     const handleMarkerClick = (id: string) => {
         setSelectedLocation('');
@@ -47,7 +47,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
         }
         setMapBounds(bounds);
         setMarkers(mks);
-    }, [birds]);
+    }, [birds, bounds, locationMap]);
 
     return (
         <>
