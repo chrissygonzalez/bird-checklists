@@ -13,13 +13,15 @@ const MapMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Locatio
     useEffect(() => { map?.fitBounds(bounds, 0); }, [bounds, map])
 
     return (
-        <div>
+        <>
             <AdvancedMarker onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
             {openWindows.has(id) && <InfoWindow anchor={marker} onCloseClick={handleMarkerClick}>
-                <p className='location-marker-name'>{mkr.name}</p>
-                <a href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
+                <div className="location-marker">
+                    <p className='location-marker-name'>{mkr.name}</p>
+                    <a tabIndex={-1} href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
+                </div>
             </InfoWindow>}
-        </div>)
+        </>)
 }
 
 export default MapMarker;

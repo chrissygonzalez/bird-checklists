@@ -400,8 +400,23 @@ header {
   flex-shrink: 0;
 }
 
+.location-marker {}
+
 .location-marker-name {
   margin-left: 0;
+}
+
+div.gm-style-iw.gm-style-iw-c {
+  flex-direction: row-reverse;
+}
+
+div div div.gm-style-iw-d {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: visible !important;
+  justify-content: center;
 }
 
 /** PICKER VIEW **/
