@@ -9,8 +9,10 @@ const Picker = () => {
         selectedStateName,
         regions,
         setSelectedRegion } = useContext(BirdContext) as BirdContextType;
-    const stateButtons = states?.map((state: EbirdRegion) => <button className="picker" key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>);
-    const regionButtons = regions?.map((region: EbirdRegion) => <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)
+    const stateButtons = states?.map((state: EbirdRegion) =>
+        <button className="picker" key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>);
+    const regionButtons = regions?.map((region: EbirdRegion) =>
+        <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)
     return (
         <div className="picker-view">
             <h2 className="picker-page-title">Explore recent bird observations in the United States</h2>

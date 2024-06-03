@@ -27,6 +27,10 @@ ul {
   list-style-type: none;
 }
 
+li {
+  font-size: 1.25rem;
+}
+
 label {
   display: block;
 }
@@ -235,6 +239,8 @@ header {
 .bird-letter {
   min-width: 250px;
   margin: 0 2rem;
+  /* column-count: 2;
+  column-width: 300px; */
 }
 
 .bird-container {
@@ -348,13 +354,46 @@ header {
   border-radius: 0;
 }
 
+/** CHECKLIST DIALOG **/
+.checklist-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0000007d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .checklist {
   background-color: var(--light);
-  height: 100%;
-  width: 400px;
-  position: absolute;
-  right: 0;
   overflow-y: scroll;
+  margin: 0 auto;
+  min-width: 35rem;
+  display: block;
+  max-height: 80vh;
+  overflow-y: scroll;
+  padding-top: 1.5rem;
+}
+
+.checklist-head {
+  font-size: 1.75rem;
+  line-height: 1.5;
+  text-align: center;
+  margin-left: 0;
+}
+
+.checklist-name {
+  font-style: italic;
+  text-align: center;
+  font-size: 1.25rem;
+  margin-left: 0;
+}
+
+.checklist-exception {
+  font-style: italic;
 }
 
 /** LOCATION VIEW **/

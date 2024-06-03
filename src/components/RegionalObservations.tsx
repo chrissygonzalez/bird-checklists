@@ -21,8 +21,7 @@ const RegionalObservations = () => {
         setRegions,
         selectedRegion,
         setSelectedRegion,
-        viewType,
-        setViewType } = useContext(BirdContext) as BirdContextType;
+        viewType } = useContext(BirdContext) as BirdContextType;
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [obs, setObs] = useState<Observation[]>([]);
@@ -37,14 +36,12 @@ const RegionalObservations = () => {
             fetchRegions(selectedState);
             setSelectedStateName(states?.find((state: EbirdRegion) => state.code === selectedState)?.name || '');
             localStorage.setItem('selectedStateName', selectedStateName);
-            setViewType('date');
         } else {
             setRegions([]);
             setObs([]);
             setSelectedState('');
             setSelectedStateName('');
             setSelectedRegion('');
-            setViewType('date');
         }
     }, [selectedState, selectedStateName, setRegions]);
 
@@ -54,7 +51,6 @@ const RegionalObservations = () => {
         if (selectedRegion !== '') {
             fetchObs();
         }
-        setViewType('date');
     }, [selectedRegion]);
 
     const myHeaders = new Headers();
@@ -114,8 +110,8 @@ const RegionalObservations = () => {
                     <>
                         {obs?.length === 0 && <Picker />}
                         {!!obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
-                        {viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
-                        {viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
+                        {!!obs?.length && viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
+                        {!!obs?.length && viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
                     </>}
             </ErrorBoundary>
         </div>

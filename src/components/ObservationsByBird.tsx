@@ -49,7 +49,6 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
     const keys = Array.from(obsMap.keys());
     return (
         <>
-            {/* {checklist && <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} />} */}
             {checklist && createPortal(
                 <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} onClose={() => setChecklist(undefined)} />,
                 document.body

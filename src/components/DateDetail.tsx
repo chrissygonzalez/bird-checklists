@@ -5,7 +5,6 @@ import { formatDate } from "../helpers";
 
 const BirdsAtLocation = ({ location, obs }: { location: string, obs: Observation[] }) => {
     const { setSelectedLocation, setViewType } = useContext(BirdContext) as BirdContextType;
-    // debugger;
     const handleClick = () => {
         setSelectedLocation(`${obs[0].lat}, ${obs[0].lng}`);
         setViewType('location');
