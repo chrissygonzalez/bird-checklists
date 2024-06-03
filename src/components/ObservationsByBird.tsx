@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Observation } from "../types";
+import { createPortal } from 'react-dom';
+import { Checklist, Observation } from "../types";
 import BirdChecklist from "./BirdChecklist";
 
 const BirdName = ({ ob, handleClick }: { ob: Observation, handleClick: () => void }) => {
@@ -11,7 +12,7 @@ const BirdName = ({ ob, handleClick }: { ob: Observation, handleClick: () => voi
 
 const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observation[], speciesMap: Map<string, string>, locationMap: Map<string, string> }) => {
     const [obsMap, setObsMap] = useState<Map<string, Observation[]>>(new Map());
-    const [checklist, setChecklist] = useState(undefined);
+    const [checklist, setChecklist] = useState<Checklist | undefined>(undefined);
 
     const myHeaders = new Headers();
     myHeaders.append("X-eBirdApiToken", `${import.meta.env.VITE_EBIRD_KEY}`);
@@ -26,7 +27,7 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
             .then(res => res.json())
             .then(data => {
                 setChecklist(data);
-                // console.log(data);
+                console.log(data);
             });
     }
 
@@ -48,7 +49,11 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
     const keys = Array.from(obsMap.keys());
     return (
         <>
-            {checklist && <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} />}
+            {/* {checklist && <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} />} */}
+            {checklist && createPortal(
+                <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} onClose={() => setChecklist(undefined)} />,
+                document.body
+            )}
             <h2 className="page-title">Recent bird species</h2>
             <div className="bird-container container">
                 {keys.map(key => {

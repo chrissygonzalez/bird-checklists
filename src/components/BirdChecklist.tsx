@@ -1,28 +1,9 @@
-import { SetStateAction } from "react";
 import { formatDate } from "../helpers";
+import { BirdChecklistType } from "../types";
 
-type ChecklistObservation = {
-    speciesCode: string;
-    howManyStr: string;
-}
-
-type Checklist = {
-    obsDt: string;
-    userDisplayName: string;
-    locId: string;
-    obs: ChecklistObservation[];
-}
-
-type BirdChecklist = {
-    list: Checklist;
-    speciesMap: Map<string, string>;
-    locationMap: Map<string, string>;
-    setChecklist: React.Dispatch<SetStateAction<undefined>>;
-}
-
-const BirdChecklist = ({ list, speciesMap, locationMap, setChecklist }: BirdChecklist) => {
+const BirdChecklist = ({ list, speciesMap, locationMap, onClose }: BirdChecklistType) => {
     return (
-        <div className="checklist" onClick={() => setChecklist(undefined)}>
+        <div className="checklist" onClick={onClose}>
             <p>{formatDate(list.obsDt)}</p>
             <p>{list.userDisplayName}</p>
             <p>Location ID: {locationMap.get(list.locId)}</p>

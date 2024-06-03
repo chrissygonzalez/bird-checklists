@@ -26,3 +26,23 @@ export type Location = {
     lng: string;
     name: string;
 }
+
+export type ChecklistObservation = {
+    speciesCode: string;
+    howManyStr: string;
+}
+
+export type Checklist = {
+    obsDt: string;
+    userDisplayName: string;
+    locId: string;
+    obs: ChecklistObservation[];
+}
+
+export type BirdChecklistType = {
+    list: Checklist;
+    speciesMap: Map<string, string>;
+    locationMap: Map<string, string>;
+    setChecklist: React.Dispatch<React.SetStateAction<Checklist | undefined>>;
+    onClose: () => void;
+}
