@@ -8,16 +8,13 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
     const { selectedLocation, setSelectedLocation } = useContext(BirdContext) as BirdContextType;
     const [markers, setMarkers] = useState<Map<string, Location>>(new Map());
     const [mapBounds, setMapBounds] = useState<google.maps.LatLngBounds>(new window.google.maps.LatLngBounds());
-    const bounds = new window.google.maps.LatLngBounds();
     const [openWindows, setOpenWindows] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         if (selectedLocation) {
-            const open = new Set(openWindows);
-            open.add(selectedLocation);
-            setOpenWindows(open);
+            setOpenWindows(openWindows => openWindows.add(selectedLocation));
         }
-    }, []);
+    }, [selectedLocation]);
 
     const handleMarkerClick = (id: string) => {
         setSelectedLocation('');
@@ -33,6 +30,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
 
     useEffect(() => {
         const mks: Map<string, Location> = new Map();
+        const bounds = new window.google.maps.LatLngBounds();
         for (const ob of birds) {
             const pt = new google.maps.LatLng({ lat: Number(ob.lat), lng: Number(ob.lng) });
             bounds.extend(pt);
@@ -47,7 +45,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
         }
         setMapBounds(bounds);
         setMarkers(mks);
-    }, [birds]);
+    }, [birds, locationMap]);
 
     return (
         <>

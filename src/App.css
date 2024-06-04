@@ -341,6 +341,7 @@ header {
   flex-grow: 1;
   padding: 2rem;
   overflow-y: scroll;
+  padding-bottom: 5rem;
 }
 
 /** SELECTED WHAT? **/
@@ -540,4 +541,75 @@ div div div.gm-style-iw-d {
   border-radius: 5px;
   box-shadow: 0px 2px 2px 1px rgb(0 0 0 / 20%);
   text-align: center;
+}
+
+
+@media (max-width: 1000px) {
+  .header-text {
+    display: none;
+  }
+
+  .logo {
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 750px) {
+  .icon-button-label {
+    display: none;
+  }
+
+  .date-nav-stats {
+    display: none;
+  }
+
+  .date-container {
+    flex-direction: column;
+  }
+
+  .dates {
+    display: flex;
+    overflow-x: scroll;
+    min-height: 4rem;
+    align-items: center;
+    border-bottom: 2px solid var(--light);
+  }
+
+  .date-nav {
+    min-width: 75px;
+    text-align: center;
+    border-right: 2px solid var(--light);
+  }
+
+  .date-nav-heading {
+    margin: 0;
+    line-height: 1.35rem;
+    font-size: 1.1rem;
+  }
+
+  .date-locations {
+    overflow-wrap: anywhere;
+  }
+
+  .location-name-container {
+    display: none;
+  }
+}
+
+@media (max-width: 625px) {
+  select {
+    width: 35%;
+  }
+}
+
+@media (max-width: 475px) {
+  nav {
+    display: none;
+  }
+}
+
+@media (max-width: 350px) {
+  .logo {
+    margin-right: 0;
+  }
 }

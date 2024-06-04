@@ -27,7 +27,6 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
             .then(res => res.json())
             .then(data => {
                 setChecklist(data);
-                console.log(data);
             });
     }
 
