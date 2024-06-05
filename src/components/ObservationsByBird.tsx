@@ -4,10 +4,10 @@ import { Checklist, Observation } from "../types";
 import BirdChecklist from "./BirdChecklist";
 
 const BirdName = ({ ob, handleClick }: { ob: Observation, handleClick: () => void }) => {
-    return <div className="bird">
+    return <section className="bird">
         <p className="bird-name" onClick={handleClick}>{ob.comName}</p>
         <p className="bird-species">{ob.sciName}</p>
-    </div>
+    </section>
 }
 
 const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observation[], speciesMap: Map<string, string>, locationMap: Map<string, string> }) => {
@@ -56,12 +56,12 @@ const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observa
             <div className="bird-container container">
                 {keys.map(key => {
                     return (
-                        <div key={key} className="bird-letter">
+                        <article className="bird-letter" key={key}>
                             <h3 className="bird-alpha">{key}</h3>
                             {obsMap?.get(key)?.map(ob =>
                                 <BirdName ob={ob} key={ob.subId + ob.speciesCode} handleClick={() => fetchChecklist(ob.subId)} />
                             )}
-                        </div>)
+                        </article>)
                 })}
             </div>
         </>

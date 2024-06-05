@@ -63,8 +63,8 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
                     })}
                 </div>
                 <GMap
+                    className='map'
                     mapId='birdLocations'
-                    style={{ width: '70vw', height: '80vh' }}
                     defaultZoom={8}
                     defaultCenter={{ lat: 43.64, lng: -79.41 }}
                     gestureHandling={'greedy'}

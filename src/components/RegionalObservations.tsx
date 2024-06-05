@@ -98,23 +98,25 @@ const RegionalObservations = () => {
     }
 
     return (
-        <div className="content">
-            {(errorMessage || error) &&
-                <div className="error-container">
-                    <div className="error">Sorry, we're having trouble connecting to EBird right now.<br></br>Please try again later.</div>
-                </div>}
+        <>
             <MainHeader obs={obs} />
-            <ErrorBoundary fallback={<div>{errorMessage}</div>}>
-                {(isLoading || statesLoading) ?
-                    <div className="loader-container"><div className="loader"></div></div> :
-                    <>
-                        {obs?.length === 0 && <Picker />}
-                        {!!obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
-                        {!!obs?.length && viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
-                        {!!obs?.length && viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
-                    </>}
-            </ErrorBoundary>
-        </div>
+            <div className="content">
+                {(errorMessage || error) &&
+                    <div className="error-container">
+                        <div className="error">Sorry, we're having trouble connecting to EBird right now.<br></br>Please try again later.</div>
+                    </div>}
+                <ErrorBoundary fallback={<div>{errorMessage}</div>}>
+                    {(isLoading || statesLoading) ?
+                        <div className="loader-container"><div className="loader"></div></div> :
+                        <>
+                            {obs?.length === 0 && <Picker />}
+                            {!!obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
+                            {!!obs?.length && viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
+                            {!!obs?.length && viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
+                        </>}
+                </ErrorBoundary>
+            </div>
+        </>
     )
 }
 

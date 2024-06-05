@@ -4,12 +4,6 @@
   box-sizing: border-box;
 }
 
-/* h1:hover {
-  cursor: pointer;
-  transition: all 0.2s;
-  color: var(--light-link);
-} */
-
 nav {
   height: 55px;
   display: flex;
@@ -163,8 +157,9 @@ header {
 /** CONTAINERS? LAYOUT? **/
 .content {
   /* height: 100%; */
-  position: relative;
-  top: 62px;
+  /* position: relative; */
+  /* top: 62px; */
+  margin-top: 92px;
   transition: 1s;
 }
 
@@ -234,20 +229,20 @@ header {
   margin-left: 1rem;
   margin-bottom: 0;
   padding-top: 0.5rem;
+  margin-top: 0;
 }
 
 .bird-letter {
-  min-width: 250px;
-  margin: 0 2rem;
-  /* column-count: 2;
-  column-width: 300px; */
+  break-inside: avoid;
+  margin-bottom: 3rem;
 }
 
 .bird-container {
-  display: flex;
-  overflow-x: scroll;
   overflow-y: scroll;
-  max-height: calc(100vh - 112px);
+  column-count: 5;
+  column-width: 300px;
+  padding: 2rem;
+  gap: 2rem;
 }
 
 /** DATE VIEW **/
@@ -357,7 +352,7 @@ header {
 
 /** CHECKLIST DIALOG **/
 .checklist-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -372,11 +367,15 @@ header {
   background-color: var(--light);
   overflow-y: scroll;
   margin: 0 auto;
-  min-width: 35rem;
+  min-width: 90%;
+  max-width: 25rem;
+  width: 25px;
   display: block;
   max-height: 80vh;
   overflow-y: scroll;
   padding-top: 1.5rem;
+  /* display: flex;
+  flex-direction: column; */
 }
 
 .checklist-head {
@@ -439,8 +438,6 @@ header {
   margin-top: 10px;
   flex-shrink: 0;
 }
-
-.location-marker {}
 
 .location-marker-name {
   margin-left: 0;
@@ -543,6 +540,11 @@ div div div.gm-style-iw-d {
   text-align: center;
 }
 
+.map {
+  width: 70vw;
+  height: 80vh;
+}
+
 
 @media (max-width: 1000px) {
   .header-text {
@@ -593,6 +595,10 @@ div div div.gm-style-iw-d {
 
   .location-name-container {
     display: none;
+  }
+
+  .map {
+    width: 100%;
   }
 }
 
