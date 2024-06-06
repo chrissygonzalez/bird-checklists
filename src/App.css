@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 nav {
   height: 55px;
   display: flex;
@@ -15,6 +19,7 @@ button {
   border: none;
   background-color: var(--light);
   color: var(--dark);
+  font-size: 0.8rem;
 }
 
 ul {
@@ -39,6 +44,7 @@ input {
   font-family: "Merriweather", serif;
   font-weight: 300;
   font-style: normal;
+  font-size: 0.8rem;
   background-color: var(--header-bg);
   color: var(--light);
   padding: 0.5rem;
@@ -48,6 +54,10 @@ input {
   border-radius: 0;
   width: 175px;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='24' height='24' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='white'/></g></svg>") no-repeat;
+  background-position: right 5px top 50%;
 }
 
 select:focus {
@@ -124,7 +134,7 @@ header {
 }
 
 .page-title {
-  margin-left: 2rem;
+  padding-top: 2rem;
   font-weight: 300;
   font-size: 2.5rem;
   text-align: center;
@@ -159,7 +169,7 @@ header {
   /* height: 100%; */
   /* position: relative; */
   /* top: 62px; */
-  margin-top: 92px;
+  margin-top: 62px;
   transition: 1s;
 }
 
@@ -234,7 +244,7 @@ header {
 
 .bird-letter {
   break-inside: avoid;
-  margin-bottom: 3rem;
+  padding-bottom: 3rem;
 }
 
 .bird-container {
@@ -260,7 +270,8 @@ header {
 
 .date-nav {
   transition: 0.2s;
-  min-width: 200px;
+  max-width: 225px;
+  min-width: 125px;
   padding: 1rem;
   border-bottom: 2px solid var(--light);
 }
@@ -306,6 +317,7 @@ header {
 .date-locations {
   column-count: 2;
   column-width: 300px;
+  gap: 2rem;
 }
 
 .date-location {
@@ -491,6 +503,8 @@ div div div.gm-style-iw-d {
   font-size: 2.5rem;
   text-align: center;
   margin: 0 0 0 0;
+  padding-top: 2rem;
+  line-height: 2.75rem;
 }
 
 .picker-title {
@@ -554,9 +568,42 @@ div div div.gm-style-iw-d {
   .logo {
     margin-right: 1rem;
   }
+
+  .date-nav-heading {
+    margin-left: 0;
+  }
+
+  .date-nav-stats {
+    margin-left: 0;
+  }
+
+  .location-name-container {
+    width: 30%;
+    margin-left: 1rem;
+  }
+
+  .map {
+    width: 70%;
+  }
 }
 
 @media (max-width: 750px) {
+  .page-title {
+    font-size: 2.25rem;
+    padding-top: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .picker-page-title {
+    font-size: 2.25rem;
+    padding-top: 1rem;
+    line-height: 2.5rem;
+  }
+
+  .picker-title {
+    margin-bottom: 1rem;
+  }
+
   .icon-button-label {
     display: none;
   }
@@ -599,23 +646,18 @@ div div div.gm-style-iw-d {
 
   .map {
     width: 100%;
+    height: 90vh;
   }
 }
 
 @media (max-width: 625px) {
-  select {
-    width: 35%;
+  .logo {
+    margin-right: 0;
   }
 }
 
 @media (max-width: 475px) {
   nav {
     display: none;
-  }
-}
-
-@media (max-width: 350px) {
-  .logo {
-    margin-right: 0;
   }
 }

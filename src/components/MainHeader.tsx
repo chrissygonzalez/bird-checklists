@@ -15,7 +15,7 @@ const MainHeader = ({ obs }: MainHeader) => {
     return (
         <header>
             <div className="header-flex">
-                <div className="logo-header">
+                <div className="logo-header" onClick={() => setViewType('date')}>
                     <BirdLogo />
                     <h1 className='langar-regular header-text' onClick={() => setViewType('date')}>Birds in the Neighborhood</h1>
                 </div>
