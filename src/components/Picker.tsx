@@ -1,18 +1,15 @@
 import { useContext } from "react";
-import { BirdContext, BirdContextType } from "./BirdContext";
+import { BirdContext, BirdContextType, BirdDispatchContext, BirdActionEnum } from "./BirdContext";
 import { EbirdRegion } from "../types";
 
 const Picker = () => {
-    const {
-        states,
-        setSelectedState,
-        selectedStateName,
-        regions,
-        setSelectedRegion } = useContext(BirdContext) as BirdContextType;
+    const dispatch = useContext(BirdDispatchContext);
+    const { states, regions, selectedStateName } = useContext(BirdContext) as BirdContextType;
+
     const stateButtons = states?.map((state: EbirdRegion) =>
-        <button className="picker" key={state.code} onClick={() => setSelectedState(state.code)}>{state.name}</button>);
+        <button className="picker" key={state.code} onClick={() => dispatch({ type: BirdActionEnum.SELECT_STATE, payload: state.code })}>{state.name}</button>);
     const regionButtons = regions?.map((region: EbirdRegion) =>
-        <button className="picker" key={region.code} onClick={() => setSelectedRegion(region.code)}>{region.name}</button>)
+        <button className="picker" key={region.code} onClick={() => dispatch({ type: BirdActionEnum.SELECT_REGION, payload: region.code })}>{region.name}</button>)
     return (
         <div className="picker-view">
             <h2 className="picker-page-title">Explore recent bird observations in the United States</h2>

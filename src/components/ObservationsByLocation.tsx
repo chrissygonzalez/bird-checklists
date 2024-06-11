@@ -1,11 +1,12 @@
 import { Map as GMap } from '@vis.gl/react-google-maps';
 import { useState, useEffect, useContext } from "react";
-import { BirdContext, BirdContextType } from "./BirdContext";
+import { BirdActionEnum, BirdContext, BirdContextType, BirdDispatchContext } from "./BirdContext";
 import { Observation, Location } from "../types";
 import MapMarker from './MapMarker';
 
 const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], locationMap: Map<string, string> }) => {
-    const { selectedLocation, setSelectedLocation } = useContext(BirdContext) as BirdContextType;
+    const dispatch = useContext(BirdDispatchContext);
+    const { selectedLocation } = useContext(BirdContext) as BirdContextType;
     const [markers, setMarkers] = useState<Map<string, Location>>(new Map());
     const [mapBounds, setMapBounds] = useState<google.maps.LatLngBounds>(new window.google.maps.LatLngBounds());
     const [openWindows, setOpenWindows] = useState<Set<string>>(new Set());
@@ -17,7 +18,7 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
     }, [selectedLocation]);
 
     const handleMarkerClick = (id: string) => {
-        setSelectedLocation('');
+        dispatch({ type: BirdActionEnum.CLEAR_SELECTED_LOCATION });
         const open = new Set(openWindows);
         if (open.has(id)) {
             open.clear();
@@ -69,7 +70,8 @@ const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], 
                     defaultCenter={{ lat: 43.64, lng: -79.41 }}
                     gestureHandling={'greedy'}
                     disableDefaultUI={true}>
-                    {Array.from(markers).map(([k, v]) => <MapMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
+                    {Array.from(markers).map(([k, v]) =>
+                        <MapMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
                 </GMap>
             </div></>)
 }

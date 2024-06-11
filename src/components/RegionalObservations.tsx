@@ -1,53 +1,39 @@
 import { useState, useEffect, useContext } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { EbirdRegion, Observation } from '../types';
+import { ViewTypes } from '../types';
 import ObservationsByDate from "./ObservationsByDate";
 import ObservationsByBird from "./ObservationsByBird";
 import ObservationsByLocation from "./ObservationsByLocation";
 import { getLocationMap, getSpeciesMap } from "../helpers";
-import { BirdContext, BirdContextType } from "./BirdContext";
+import { BirdContext, BirdContextType, BirdDispatchContext, BirdActionEnum } from "./BirdContext";
 import MainHeader from "./MainHeader";
 import Picker from "./Picker";
 
 const RegionalObservations = () => {
+    const dispatch = useContext(BirdDispatchContext);
+    const { viewType } = useContext(BirdContext) as BirdContextType;
     const {
-        states,
-        statesLoading,
+        obs,
+        isLoading,
         error,
         selectedState,
-        setSelectedState,
         selectedStateName,
-        setSelectedStateName,
-        setRegions,
         selectedRegion,
-        setSelectedRegion,
-        viewType } = useContext(BirdContext) as BirdContextType;
-    const [isLoading, setIsLoading] = useState(false);
+    } = useContext(BirdContext) as BirdContextType;
     const [errorMessage, setErrorMessage] = useState('');
-    const [obs, setObs] = useState<Observation[]>([]);
     const [locationMap, setLocationMap] = useState(new Map());
     const [speciesMap, setSpeciesMap] = useState(new Map());
 
     useEffect(() => {
-        localStorage.setItem('selectedState', selectedState);
         if (selectedState !== '') {
-            setRegions([]);
-            setObs([]);
+            dispatch({ type: BirdActionEnum.INITIALIZE_REGIONS, payload: [] });
             fetchRegions(selectedState);
-            setSelectedStateName(states?.find((state: EbirdRegion) => state.code === selectedState)?.name || '');
-            localStorage.setItem('selectedStateName', selectedStateName);
         } else {
-            setRegions([]);
-            setObs([]);
-            setSelectedState('');
-            setSelectedStateName('');
-            setSelectedRegion('');
+            dispatch({ type: BirdActionEnum.CLEAR_STATE });
         }
-    }, [selectedState, selectedStateName, setRegions]);
+    }, [selectedState, selectedStateName]);
 
     useEffect(() => {
-        localStorage.setItem('selectedRegion', selectedRegion);
-        setObs([]);
         if (selectedRegion !== '') {
             fetchObs();
         }
@@ -62,37 +48,37 @@ const RegionalObservations = () => {
     };
 
     const fetchRegions = (region: string) => {
-        setIsLoading(true);
+        dispatch({ type: 'SET_LOADING', payload: true });
         fetch(`https://api.ebird.org/v2/ref/region/list/subnational2/${region}`, requestOptions)
             .then(res => res.json())
             .then(data => {
                 if (data.errors) {
-                    setIsLoading(false);
+                    dispatch({ type: BirdActionEnum.SET_LOADING, payload: false });
                     setErrorMessage('could not fetch the data for that resource');
                     throw Error('could not fetch the data for that resource');
                 } else {
-                    setRegions(data);
                     setErrorMessage('');
-                    setIsLoading(false);
+                    dispatch({ type: BirdActionEnum.SET_LOADING, payload: false });
+                    dispatch({ type: BirdActionEnum.INITIALIZE_REGIONS, payload: data })
                 }
             }).catch(err => console.error(err.message));
     }
 
     const fetchObs = () => {
-        setIsLoading(true);
+        dispatch({ type: 'SET_LOADING', payload: true });
         fetch(`https://api.ebird.org/v2/data/obs/${selectedRegion}/recent?back=30`, requestOptions)
             .then(res => res.json())
             .then((data) => {
                 if (data.errors) {
-                    setIsLoading(false);
+                    dispatch({ type: BirdActionEnum.SET_LOADING, payload: false });
                     setErrorMessage('could not fetch the data for that resource');
                     throw Error('could not fetch the data for that resource');
                 } else {
-                    setObs(data);
+                    dispatch({ type: BirdActionEnum.SET_OBSERVATIONS, payload: data });
                     setErrorMessage('');
                     setLocationMap(getLocationMap(data));
                     setSpeciesMap(getSpeciesMap(data));
-                    setIsLoading(false);
+                    dispatch({ type: BirdActionEnum.SET_LOADING, payload: false });
                 }
             }).catch(err => console.error(err.message));
     }
@@ -106,13 +92,13 @@ const RegionalObservations = () => {
                         <div className="error">Sorry, we're having trouble connecting to EBird right now.<br></br>Please try again later.</div>
                     </div>}
                 <ErrorBoundary fallback={<div>{errorMessage}</div>}>
-                    {(isLoading || statesLoading) ?
+                    {isLoading ?
                         <div className="loader-container"><div className="loader"></div></div> :
                         <>
                             {obs?.length === 0 && <Picker />}
-                            {!!obs?.length && viewType === 'date' && <ObservationsByDate birds={obs} />}
-                            {!!obs?.length && viewType === 'bird' && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
-                            {!!obs?.length && viewType === 'location' && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
+                            {!!obs?.length && viewType === ViewTypes.DATE && <ObservationsByDate birds={obs} />}
+                            {!!obs?.length && viewType === ViewTypes.BIRD && <ObservationsByBird birds={obs} speciesMap={speciesMap} locationMap={locationMap} />}
+                            {!!obs?.length && viewType === ViewTypes.LOCATION && <ObservationsByLocation birds={obs} locationMap={locationMap} />}
                         </>}
                 </ErrorBoundary>
             </div>

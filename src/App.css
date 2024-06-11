@@ -94,7 +94,8 @@ header {
 
 .logo {
   height: 65px;
-  fill: #fff
+  fill: #fff;
+  transition: 0.5s;
 }
 
 .logo-header {
@@ -651,13 +652,23 @@ div div div.gm-style-iw-d {
 }
 
 @media (max-width: 625px) {
+  nav {
+    display: none;
+  }
+
   .logo {
     margin-right: 0;
   }
 }
 
 @media (max-width: 475px) {
-  nav {
+  .logo {
+    width: 40px;
+  }
+}
+
+@media (max-width: 350px) {
+  .logo {
     display: none;
   }
 }

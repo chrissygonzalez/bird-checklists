@@ -46,3 +46,9 @@ export type BirdChecklistType = {
     setChecklist: React.Dispatch<React.SetStateAction<Checklist | undefined>>;
     onClose: () => void;
 }
+
+export enum ViewTypes {
+    DATE = 'date',
+    BIRD = 'bird',
+    LOCATION = 'location',
+}
