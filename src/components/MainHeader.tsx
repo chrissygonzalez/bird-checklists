@@ -2,16 +2,12 @@ import { useContext } from 'react';
 import RegionSelect from './RegionSelect';
 import StateSelect from "./StateSelect";
 import ViewNav from "./ViewNav";
-import { BirdDispatchContext, BirdActionEnum } from './BirdContext';
-import { Observation } from '../types';
+import { BirdDispatchContext, BirdActionEnum, BirdContext, BirdContextType } from './BirdContext';
 import BirdLogo from './BirdLogo';
 
-type MainHeader = {
-    obs: Observation[];
-}
-
-const MainHeader = ({ obs }: MainHeader) => {
+const MainHeader = () => {
     const dispatch = useContext(BirdDispatchContext);
+    const { hasObs } = useContext(BirdContext) as BirdContextType;
 
     return (
         <header>
@@ -23,7 +19,7 @@ const MainHeader = ({ obs }: MainHeader) => {
                 <StateSelect />
                 <RegionSelect />
             </div>
-            {obs?.length > 0 && <ViewNav />}
+            {hasObs && <ViewNav />}
         </header>
     )
 }

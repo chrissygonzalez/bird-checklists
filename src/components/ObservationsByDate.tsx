@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { BirdContext, BirdContextType } from "./BirdContext";
 import { Observation } from "../types";
 import { formatDateNav, getBirdMap } from "../helpers";
 import DateDetail from "./DateDetail";
 
-const ObservationsByDate = ({ birds }: { birds: Observation[] }) => {
+const ObservationsByDate = () => {
+    const {
+        obs: birds,
+    } = useContext(BirdContext) as BirdContextType;
     const [obsMap, setObsMap] = useState<Map<string, Map<string, Observation[]>>>(new Map());
     const [days, setDays] = useState<string[]>([]);
     const [currentDay, setCurrentDay] = useState('');

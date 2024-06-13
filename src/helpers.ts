@@ -19,7 +19,7 @@ export const formatDateNav = (date: string) => {
     return new Date(date).toLocaleDateString(undefined, dateOptions);
 }
 
-export const getSpeciesMap = (data: Observation[]): Map<any, any> => {
+export const getSpeciesMap = (data: Observation[]): Map<string, string> => {
     const sMap = new Map();
     for (const species of data) {
         if (!sMap.has(species.speciesCode)) {
@@ -29,7 +29,7 @@ export const getSpeciesMap = (data: Observation[]): Map<any, any> => {
     return sMap;
 }
 
-export const getLocationMap = (data: Observation[]): Map<any, any> => {
+export const getLocationMap = (data: Observation[]): Map<string, string> => {
     const lMap = new Map();
     for (const location of data) {
         if (!lMap.has(location.locId)) {

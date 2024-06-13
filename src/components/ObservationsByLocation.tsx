@@ -1,10 +1,14 @@
 import { Map as GMap } from '@vis.gl/react-google-maps';
 import { useState, useEffect, useContext } from "react";
 import { BirdActionEnum, BirdContext, BirdContextType, BirdDispatchContext } from "./BirdContext";
-import { Observation, Location } from "../types";
+import { Location } from "../types";
 import MapMarker from './MapMarker';
 
-const ObservationsByLocation = ({ birds, locationMap }: { birds: Observation[], locationMap: Map<string, string> }) => {
+const ObservationsByLocation = () => {
+    const {
+        obs: birds,
+        locationMap,
+    } = useContext(BirdContext) as BirdContextType;
     const dispatch = useContext(BirdDispatchContext);
     const { selectedLocation } = useContext(BirdContext) as BirdContextType;
     const [markers, setMarkers] = useState<Map<string, Location>>(new Map());

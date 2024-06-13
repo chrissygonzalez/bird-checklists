@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { createPortal } from 'react-dom';
 import { Checklist, Observation } from "../types";
+import { BirdContext, BirdContextType } from "./BirdContext";
 import BirdChecklist from "./BirdChecklist";
 
 const BirdName = ({ ob, handleClick }: { ob: Observation, handleClick: () => void }) => {
@@ -10,7 +11,12 @@ const BirdName = ({ ob, handleClick }: { ob: Observation, handleClick: () => voi
     </section>
 }
 
-const ObservationsByBird = ({ birds, speciesMap, locationMap }: { birds: Observation[], speciesMap: Map<string, string>, locationMap: Map<string, string> }) => {
+const ObservationsByBird = () => {
+    const {
+        obs: birds,
+        locationMap,
+        speciesMap,
+    } = useContext(BirdContext) as BirdContextType;
     const [obsMap, setObsMap] = useState<Map<string, Observation[]>>(new Map());
     const [checklist, setChecklist] = useState<Checklist | undefined>(undefined);
 
