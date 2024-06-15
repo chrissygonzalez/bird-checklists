@@ -22,4 +22,5 @@ The design of the site evolved organically as I tried displaying the bird observ
 - Typescript
 - [react-google-maps](https://github.com/visgl/react-google-maps)
 - npm
+- Cormorant, Langar, and Merriweather from [Google Fonts](https://fonts.google.com/)
 - a lovely icon purchased from the [Noun Project](https://thenounproject.com/)
