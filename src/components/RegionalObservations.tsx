@@ -78,7 +78,8 @@ const RegionalObservations = () => {
                 {(error) &&
                     <div className="error-container">
                         <div className="error">
-                            Sorry, we're having trouble connecting to EBird right now.<br></br>Please try again later.
+                            <p>Sorry, we're having trouble connecting to EBird right now.</p>
+                            <p>Please try again later.</p>
                         </div>
                     </div>}
                 <ErrorBoundary fallback={<div>{error}</div>}>

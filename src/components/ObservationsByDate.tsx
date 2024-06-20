@@ -1,20 +1,17 @@
 import { useState, useEffect, useContext } from "react";
 import { BirdContext, BirdContextType } from "./BirdContext";
-import { Observation } from "../types";
-import { formatDateNav, getBirdMap } from "../helpers";
+import { formatDateNav } from "../helpers";
 import DateDetail from "./DateDetail";
 
 const ObservationsByDate = () => {
     const {
         obs: birds,
+        birdMap
     } = useContext(BirdContext) as BirdContextType;
-    const [obsMap, setObsMap] = useState<Map<string, Map<string, Observation[]>>>(new Map());
     const [days, setDays] = useState<string[]>([]);
     const [currentDay, setCurrentDay] = useState('');
 
     useEffect(() => {
-        const birdMap = getBirdMap(birds);
-        setObsMap(birdMap);
         birdMap.forEach((day, key) => {
             const sorted = new Map([...day.entries()].sort());
             birdMap.set(key, sorted);
@@ -30,7 +27,7 @@ const ObservationsByDate = () => {
             <div className="date-container container">
                 <div className="dates">
                     {days.map(day => {
-                        const dayData = obsMap.get(day) || [];
+                        const dayData = birdMap.get(day) || [];
                         const numLocations = [...dayData.keys()].length;
                         let totalSpecies = 0;
                         for (const entry of dayData) {
@@ -44,7 +41,7 @@ const ObservationsByDate = () => {
                         )
                     })}
                 </div>
-                {currentDay && <DateDetail day={currentDay} obsMap={obsMap} />}
+                {currentDay && <DateDetail day={currentDay} obsMap={birdMap} />}
             </div>
         </>
     )

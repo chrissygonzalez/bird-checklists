@@ -6,6 +6,7 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 nav {
@@ -248,12 +249,43 @@ header {
   padding-bottom: 3rem;
 }
 
+.bird-letter-nav {
+  column-span: all;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.bird-letter-nav-item {
+  border: 2px solid var(--light);
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-block;
+  font-family: "Langar", system-ui;
+  color: var(--accent);
+  font-size: 1rem;
+  align-self: flex-start;
+  text-align: center;
+  margin-top: 10px;
+  flex-shrink: 0;
+  line-height: 1.7;
+  transition: 0.2s;
+}
+
+.bird-letter-nav-item:hover {
+  background-color: var(--light);
+  color: var(--accent);
+}
+
 .bird-container {
   overflow-y: scroll;
   column-count: 5;
   column-width: 300px;
   padding: 2rem;
+  padding-top: 1rem;
   gap: 2rem;
+  transition: 0.5s;
 }
 
 /** DATE VIEW **/
@@ -380,20 +412,17 @@ header {
   background-color: var(--light);
   overflow-y: scroll;
   margin: 0 auto;
-  min-width: 90%;
-  max-width: 25rem;
-  width: 25px;
+  max-width: 90%;
+  width: 30rem;
   display: block;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: scroll;
   padding-top: 1.5rem;
-  /* display: flex;
-  flex-direction: column; */
 }
 
 .checklist-head {
   font-size: 1.75rem;
-  line-height: 1.5;
+  line-height: 1.25;
   text-align: center;
   margin-left: 0;
 }
@@ -402,7 +431,7 @@ header {
   font-style: italic;
   text-align: center;
   font-size: 1.25rem;
-  margin-left: 0;
+  margin: 5px 0 15px 0;
 }
 
 .checklist-exception {

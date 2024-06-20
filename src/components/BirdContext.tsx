@@ -1,6 +1,6 @@
 import { useEffect, createContext, useReducer, Dispatch } from "react";
 import { EbirdRegion, Observation } from "../types";
-import { getLocationMap, getSpeciesMap } from "../helpers";
+import { getBirdMap, getLocationMap, getSpeciesMap } from "../helpers";
 
 export type BirdContextType = {
     states: EbirdRegion[];
@@ -9,6 +9,7 @@ export type BirdContextType = {
     hasObs: boolean;
     locationMap: Map<string, string>;
     speciesMap: Map<string, string>;
+    birdMap: Map<string, Map<string, Observation[]>>;
     selectedState: string;
     selectedStateName: string;
     selectedRegion: string;
@@ -20,6 +21,11 @@ export type BirdContextType = {
 
 const emptyMap: Map<string, string> = new Map();
 emptyMap.set('', '');
+
+const emptyBirdMapItem: Map<string, Observation[]> = new Map();
+const emptyBirdMap: Map<string, Map<string, Observation[]>> = new Map();
+emptyBirdMap.set('', emptyBirdMapItem);
+
 const initialState = {
     states: [],
     regions: [],
@@ -27,6 +33,7 @@ const initialState = {
     hasObs: false,
     locationMap: emptyMap,
     speciesMap: emptyMap,
+    birdMap: emptyBirdMap,
     viewType: 'date',
     selectedState: localStorage.getItem('selectedState') || '',
     selectedStateName: localStorage.getItem('selectedStateName') || '',
@@ -124,9 +131,10 @@ function birdReducer(state: BirdContextType, action: BirdAction) {
             return { ...state, selectedLocation: action.payload };
         }
         case BirdActionEnum.SET_OBSERVATIONS: {
-            const locMap = getLocationMap(action.payload);
-            const specMap = getSpeciesMap(action.payload);
-            return { ...state, isLoading: false, error: '', obs: action.payload, hasObs: true, locationMap: locMap, speciesMap: specMap };
+            const locationMap = getLocationMap(action.payload);
+            const speciesMap = getSpeciesMap(action.payload);
+            const birdMap = getBirdMap(action.payload);
+            return { ...state, isLoading: false, error: '', obs: action.payload, hasObs: true, locationMap, speciesMap, birdMap };
         }
         case BirdActionEnum.SET_VIEW_TYPE: {
             return { ...state, viewType: action.payload };

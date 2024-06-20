@@ -60,9 +60,12 @@ const ObservationsByBird = () => {
             )}
             <h2 className="page-title">Recent bird species</h2>
             <div className="bird-container container">
+                <div className="bird-letter-nav">
+                    {keys.map(key => <a className="bird-letter-nav-item" key={key} href={'#' + key}>{key}</a>)}
+                </div>
                 {keys.map(key => {
                     return (
-                        <article className="bird-letter" key={key}>
+                        <article className="bird-letter" key={key} id={key}>
                             <h3 className="bird-alpha">{key}</h3>
                             {obsMap?.get(key)?.map(ob =>
                                 <BirdName ob={ob} key={ob.subId + ob.speciesCode} handleClick={() => fetchChecklist(ob.subId)} />
