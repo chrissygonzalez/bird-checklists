@@ -247,6 +247,7 @@ header {
 .bird-letter {
   break-inside: avoid;
   padding-bottom: 3rem;
+  scroll-margin-top: 75px;
 }
 
 .bird-letter-nav {
@@ -255,6 +256,7 @@ header {
   gap: 15px;
   justify-content: center;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .bird-letter-nav-item {
@@ -616,7 +618,7 @@ div div div.gm-style-iw-d {
   }
 
   .logo {
-    margin-right: 1rem;
+    margin-right: 0.5rem;
   }
 
   .date-nav-heading {
@@ -638,6 +640,10 @@ div div div.gm-style-iw-d {
 }
 
 @media (max-width: 750px) {
+  .header-text {
+    display: none;
+  }
+
   .page-title {
     font-size: 2.25rem;
     padding-top: 1rem;
@@ -652,10 +658,6 @@ div div div.gm-style-iw-d {
 
   .picker-title {
     margin-bottom: 1rem;
-  }
-
-  .icon-button-label {
-    display: none;
   }
 
   .date-nav-stats {
@@ -698,26 +700,38 @@ div div div.gm-style-iw-d {
     width: 100%;
     height: 90vh;
   }
+
+  .icon-button-label {
+    display: none;
+  }
 }
 
-@media (max-width: 625px) {
-  nav {
+@media (max-width: 635px) {
+  .header-flex {
+    margin-left: 1rem;
+  }
+
+  .logo-header {
     display: none;
   }
 
-  .logo {
-    margin-right: 0;
+  .obs-desc-container {
+    margin: 0;
+  }
+
+  select {
+    width: 50%;
   }
 }
 
 @media (max-width: 475px) {
-  .logo {
-    width: 40px;
+  select {
+    background: none;
   }
 }
 
-@media (max-width: 350px) {
-  .logo {
-    display: none;
+@media (max-width: 400px) {
+  .header-flex {
+    margin-left: 0;
   }
 }

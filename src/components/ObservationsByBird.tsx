@@ -61,7 +61,10 @@ const ObservationsByBird = () => {
             <h2 className="page-title">Recent bird species</h2>
             <div className="bird-container container">
                 <div className="bird-letter-nav">
-                    {keys.map(key => <a className="bird-letter-nav-item" key={key} href={'#' + key}>{key}</a>)}
+                    {keys.map(key => <a onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById(key)?.scrollIntoView()
+                    }} className="bird-letter-nav-item" key={key} href={'#' + key}>{key}</a>)}
                 </div>
                 <button className="bird-scroll-to-top" onClick={() => window.scrollTo(0, 0)}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" /></svg>
