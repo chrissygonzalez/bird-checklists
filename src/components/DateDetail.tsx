@@ -24,7 +24,7 @@ const DateDetail = ({ day, obsMap }: { day: string, obsMap: Map<string, Map<stri
     }
 
     return (
-        <div className="date-detail">
+        <main className="date-detail" role="main" aria-label="Observations on date">
             <h3 className="date-heading">{formatDate(day)}</h3>
             <div className="date-locations">
                 {locations.map(loc => {
@@ -34,7 +34,7 @@ const DateDetail = ({ day, obsMap }: { day: string, obsMap: Map<string, Map<stri
                     )
                 })}
             </div>
-        </div>
+        </main>
     )
 }
 

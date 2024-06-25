@@ -25,7 +25,7 @@ const ObservationsByDate = () => {
         <>
             <h2 className="page-title">Recent bird observations</h2>
             <div className="date-container container">
-                <div className="dates">
+                <div className="dates" role="navigation" aria-label="Observation dates">
                     {days.map(day => {
                         const dayData = birdMap.get(day) || [];
                         const numLocations = [...dayData.keys()].length;
@@ -34,7 +34,7 @@ const ObservationsByDate = () => {
                             totalSpecies += entry[1].length;
                         }
                         return (
-                            <div key={day} className={`date-nav ${day === currentDay ? 'date-selected' : ''}`} onClick={() => setCurrentDay(day)}>
+                            <div key={day} tabIndex={0} className={`date-nav ${day === currentDay ? 'date-selected' : ''}`} onClick={() => setCurrentDay(day)}>
                                 <h3 className="date-nav-heading">{formatDateNav(day)}</h3>
                                 <p className="date-nav-stats">{numLocations} location{numLocations > 1 ? 's' : ''} • {totalSpecies} species</p>
                             </div>
