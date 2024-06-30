@@ -9,7 +9,7 @@ html {
   scroll-behavior: smooth;
 }
 
-nav {
+.view-nav {
   height: 55px;
   display: flex;
   justify-content: space-between;
@@ -482,6 +482,11 @@ header {
   font-size: 1.25rem;
   margin-top: 0.25rem;
   cursor: pointer;
+  background-color: unset;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  text-align: left;
+  margin-left: 1rem;
 }
 
 .location-name:hover {

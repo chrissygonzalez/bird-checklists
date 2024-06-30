@@ -7,7 +7,7 @@ const ViewNav = () => {
     const { viewType } = useContext(BirdContext) as BirdContextType;
 
     return (
-        <nav>
+        <nav className="view-nav">
             <div className="obs-desc-container">
             </div>
             <div className="flex icon-button-container">

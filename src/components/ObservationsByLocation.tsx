@@ -55,18 +55,18 @@ const ObservationsByLocation = () => {
     return (
         <>
             <h2 className="page-title">Recent observation locations</h2>
-            <div className='location-container container'>
-                <div className="location-name-container">
+            <div role="main" className='location-container container'>
+                <nav className="location-name-container">
                     {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v], index) => {
                         return (
                             <div className='location-name-item' key={k}>
                                 <div className="location-number">{index + 1}</div>
-                                <p className="location-name" onClick={() => handleMarkerClick(k)}>
+                                <button tabIndex={0} className="location-name" onClick={() => handleMarkerClick(k)}>
                                     {v.name}
-                                </p>
+                                </button>
                             </div>)
                     })}
-                </div>
+                </nav>
                 <GMap
                     className='map'
                     mapId='birdLocations'

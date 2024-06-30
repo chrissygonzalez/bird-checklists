@@ -18,7 +18,7 @@ const MapMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Locatio
             {openWindows.has(id) && <InfoWindow anchor={marker} onCloseClick={handleMarkerClick}>
                 <div className="location-marker">
                     <p className='location-marker-name'>{mkr.name}</p>
-                    <a tabIndex={-1} href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
+                    <a tabIndex={0} href={`https://www.google.com/maps/search/?api=1&query=${mkr.lat},${mkr.lng}`} target='_blank' rel='noopener'>Open in Google Maps</a>
                 </div>
             </InfoWindow>}
         </>)
