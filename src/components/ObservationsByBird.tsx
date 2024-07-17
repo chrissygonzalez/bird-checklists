@@ -53,14 +53,14 @@ const ObservationsByBird = () => {
 
     const keys = Array.from(obsMap.keys());
     return (
-        <>
+        <main>
             {checklist && createPortal(
                 <BirdChecklist list={checklist} speciesMap={speciesMap} locationMap={locationMap} setChecklist={setChecklist} onClose={() => setChecklist(undefined)} />,
                 document.body
             )}
             <h2 className="page-title">Recent bird species</h2>
             <div className="bird-container container">
-                <nav className="bird-letter-nav">
+                <nav title="alphabetical letter links" className="bird-letter-nav">
                     {keys.map(key => <a tabIndex={0} onClick={(e) => {
                         e.preventDefault();
                         document.getElementById(key)?.scrollIntoView()
@@ -73,7 +73,7 @@ const ObservationsByBird = () => {
                     onClick={() => window.scrollTo(0, 0)}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" /></svg>
                 </button>
-                <div role="main">
+                <div>
                     {keys.map(key => {
                         return (
                             <article className="bird-letter" key={key} id={key}>
@@ -85,7 +85,7 @@ const ObservationsByBird = () => {
                     })}
                 </div>
             </div>
-        </>
+        </main>
     )
 }
 

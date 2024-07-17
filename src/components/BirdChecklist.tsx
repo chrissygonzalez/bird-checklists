@@ -7,7 +7,7 @@ const BirdChecklist = ({ list, speciesMap, locationMap, onClose }: BirdChecklist
             <dialog className="checklist" onClick={onClose}>
                 <p className="checklist-head">Seen at {locationMap.get(list.locId)}</p>
                 <p className="checklist-name">{formatDate(list.obsDt)}{list.userDisplayName && ` • Checklist by ${list.userDisplayName}`}</p>
-                <ul>{list.obs.sort((a, b) => a.speciesCode < b.speciesCode ? -1 : 1).map(ob => {
+                <ul tabIndex={0}>{list.obs.sort((a, b) => a.speciesCode < b.speciesCode ? -1 : 1).map(ob => {
                     if (speciesMap.has(ob.speciesCode)) {
                         return <li key={ob.speciesCode}>{speciesMap.get(ob.speciesCode)} {ob.howManyStr !== 'X' ? `• ${ob.howManyStr}` : ''}</li>
                     } else {

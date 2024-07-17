@@ -14,7 +14,7 @@ const MapMarker = ({ mkr, bounds, id, openWindows, handleClick }: { mkr: Locatio
 
     return (
         <>
-            <AdvancedMarker onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
+            <AdvancedMarker title="map marker" onClick={handleMarkerClick} ref={markerRef} position={{ lat: Number(mkr.lat), lng: Number(mkr.lng) }} />
             {openWindows.has(id) && <InfoWindow anchor={marker} onCloseClick={handleMarkerClick}>
                 <div className="location-marker">
                     <p className='location-marker-name'>{mkr.name}</p>

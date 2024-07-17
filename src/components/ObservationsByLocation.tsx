@@ -53,10 +53,10 @@ const ObservationsByLocation = () => {
     }, [birds, locationMap]);
 
     return (
-        <>
+        <main>
             <h2 className="page-title">Recent observation locations</h2>
-            <div role="main" className='location-container container'>
-                <nav className="location-name-container">
+            <div className='location-container container'>
+                <nav title="links to locations" className="location-name-container">
                     {Array.from(markers).sort((a, b) => a[1].name < b[1].name ? -1 : 1).map(([k, v], index) => {
                         return (
                             <div className='location-name-item' key={k}>
@@ -77,7 +77,8 @@ const ObservationsByLocation = () => {
                     {Array.from(markers).map(([k, v]) =>
                         <MapMarker key={k} id={k} handleClick={handleMarkerClick} openWindows={openWindows} mkr={v} bounds={mapBounds} />)}
                 </GMap>
-            </div></>)
+            </div>
+        </main>)
 }
 
 export default ObservationsByLocation;

@@ -7,7 +7,7 @@ const RegionSelect = () => {
     const { regions, selectedRegion } = useContext(BirdContext) as BirdContextType;
 
     return (
-        <select id="ebirdRegions" value={selectedRegion} onChange={(e) => dispatch({ type: BirdActionEnum.SELECT_REGION, payload: e.target.value })}>
+        <select aria-label="Select a county" id="ebirdRegions" value={selectedRegion} onChange={(e) => dispatch({ type: BirdActionEnum.SELECT_REGION, payload: e.target.value })}>
             <option value={''}>Choose a region</option>
             {regions?.map((st: EbirdRegion) => <option key={st.code} value={st.code}>{st.name}</option>)}
         </select>

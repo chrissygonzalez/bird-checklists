@@ -23,7 +23,7 @@ const ObservationsByDate = () => {
     }, [birds]);
 
     return (
-        <>
+        <main>
             <h2 className="page-title">Recent bird observations</h2>
             <div className="date-container container">
                 <div className="dates" role="navigation" aria-label="Observation dates">
@@ -68,7 +68,7 @@ const ObservationsByDate = () => {
                 </div>
                 {currentDay && <DateDetail day={currentDay} obsMap={birdMap} />}
             </div>
-        </>
+        </main>
     )
 }
 

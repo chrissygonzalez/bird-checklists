@@ -7,7 +7,7 @@ const StateSelect = () => {
     const { states, selectedState } = useContext(BirdContext) as BirdContextType;
 
     return (
-        <select id="ebirdStates" value={selectedState} onChange={(e) => {
+        <select aria-label="Select a state" id="ebirdStates" value={selectedState} onChange={(e) => {
             dispatch({ type: BirdActionEnum.SELECT_STATE, payload: e.target.value });
         }}>
             <option value={''}>Choose a state</option>
